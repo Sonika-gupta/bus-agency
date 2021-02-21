@@ -1,0 +1,9 @@
+li {
+  list-style-type: none;
+  width: 100%;
+  /* box-shadow: 1px 1px 1px 1px var(--theme-color); */
+}
+ul {
+  padding: 5px;
+  margin: 10px auto;
+}
