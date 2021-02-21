@@ -1,26 +1,38 @@
 import { getBuses, getBus, newBus, updateBus, deleteBuses, getSeats, updateSeat } from './app.js'
 
-function handleSubmit(e) {
+function handleSearch(e) {
   e.preventDefault()
   const data = new FormData(e.target)
-  const value = Object.fromEntries(data.entries())
-  value.busType = data.getAll("busType")
-  value.amenities = data.getAll("amenities")
-  value.running_days = data.getAll("runningDays")
-  newBus(value).then(result => {
-    console.log(result)
-  })
-  // console.log(value)
+  console.log(data)
 }
-
-function load() {
-  const addBusButton = document.getElementById('addBusButton')
-  addBusButton.addEventListener('click', () => {
-    document.getElementById('addBusForm').classList.remove('hidden')
+function loadList() {
+  getBuses().then(buses => {
+    console.log('index.js', buses)
+    document.querySelector('bus-list').setAttribute('list', JSON.stringify(buses))
   })
-
-  const busForm = document.forms["addBusForm"]
-  busForm.addEventListener('submit', handleSubmit)
 }
+/* function enableUserOptions() {
+  const userPanel = document.getElementById('user')
+  const userOptions = document.querySelector('.userOptions')
+  userPanel.addEventListener('click', () => {
+    userOptions.classList.remove('hidden')
+  })
+  userOptions.addEventListener('mouseleave', () => {
+    userOptions.classList.add('hidden')
+  })
+  document.querySelector('nav').onmouseleave = () => {
+    console.log('mouse left nav')
+  }
+} */
 
-load()
+(function load() {
+  loadList()
+  // enableUserOptions()
+  document.querySelector('#addBusButton').addEventListener('click', () => {
+    document.querySelector('bus-form').classList.remove('hidden')
+  })
+  /* 
+  const searchForm = document.forms["search"]
+  searchForm.addEventListener('submit', handleSearch) */
+  
+})()
