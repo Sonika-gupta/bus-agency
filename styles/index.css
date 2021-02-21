@@ -1,73 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+:root {
+  --theme-color: #eab760;
+}
 body {
-    margin-top: 60px;
-    margin-left: 0;
+  margin-top: 60px;
+  margin-left: 0;
+  font-family: 'Roboto', sans-serif;
 }
 section {
-    padding: 5px;
-    width: 100%;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    padding: 5px 10px;
-    justify-content: space-between;
-    /* margin: auto; */
-    box-sizing: border-box;
-    background-color: tomato;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  padding: 5px 10px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  /* border: solid 1px var(--theme-color); */
 }
-form[name="searchBar"] {
-    display: flex;
-}
-
-div {
-    border: solid 1px black;
-    background-color: gainsboro;
-}
-/* 
-bus-form {
-    width: 100%;
-    height: 350px;
-} */
-
 .hidden {
-    display: none;
+  display: none;
 }
-.weekDays-selector input {
-    display: none!important;
+.userOptions {
+  position: absolute;
+  width: fit-content;
+  height: 30px;
+  padding: 10px;
+  background-color: grey;
+  top: 50px;
+  right: 0;
 }
-  
-.weekDays-selector input[type=checkbox] + label {
-    display: inline-block;
-    border-radius: 6px;
-    background: #dddddd;
-    height: 40px;
-    width: 30px;
-    margin-right: 3px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-}
-  
-.weekDays-selector input[type=checkbox]:checked + label {
-    background: #2AD705;
-    color: #ffffff;
-}
-#addBusForm {
-    width: 75%;
-    margin: auto;
-}
-#companyName {
-    width: 30%;
-}
-#searchBar {
-    width: 100%;
-    display: flex;
-    /* flex-direction: column; */
-}
-#sidebar {
-    width: 10%;
-    height: 100%;
+#user:hover {
+  cursor: pointer;
 }

@@ -1,170 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!-- <link rel="import" href="bus-entry.html"> -->
-    <link rel="stylesheet" href="./styles/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <title>Bus Agency</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <nav>
-            <div id="companyName">
-                <span>Bus Agency</span>
-            </div>
-            <div id="user">
-                <span id="username"></span>
-            </div>
-            <div>
-                <button id="addBusButton">Add Bus</button>
-                <button id="addUserButton">Add User</button>
-                <button id="logoutButton">Log Out</button>
-            </div>
-        </nav>
-    </header>
-    <section id="sidebar">
-        <div id="filters">Filters
+      <nav>
+        <div id="companyName">
+          <span>Yellow Project</span>
         </div>
-    </section>
-    <section>
-        <form name="searchBar">
-            <div>
-                <label for="sourceLocation">From</label>
-                <input id="sourceLocation">    
-            </div>
-            <div>
-                <label for="destinationLocation">To</label>
-                <input id="destinationLocation">
-            </div>
-            <div>
-                <label for="travelDate">Date</label>
-                <input id="travelDate" type="date">
-            </div>
-            <button type="submit">Search Buses</button>
+        <div id="user">
+          <button id="addBusButton">Add Bus</button>
+          <span id="username">Admin</span>
+          <i class="fa fa-sort-down"></i>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="searchPanel">
+        <form name="search">
+          <div>
+            <label for="sourceLocation">From</label>
+            <input id="sourceLocation" />
+          </div>
+          <div>
+            <label for="destinationLocation">To</label>
+            <input id="destinationLocation" />
+          </div>
+          <div>
+            <label for="travelDate">Date</label>
+            <input id="travelDate" type="date" />
+          </div>
+          <button type="submit">Search Buses</button>
         </form>
-    </section>
-    <section id="addBusForm" class="hidden">
-    <!-- <section id="addBusForm"> -->
-        <form name="addBusForm">
-            <fieldset>
-                <legend>Bus number</legend>
-                <input type="text" name="busNumber"/>
-            </fieldset>
-            <fieldset>
-                <legend>Bus name</legend>
-                <input type="text" name="name"/>
-            </fieldset>
-            <fieldset>
-                <legend>Bus Type</legend>
-                <input type="checkbox" name="busType" value="ac">
-                <label for="ac"> AC </label><br>
-                <input type="checkbox" name="busType" value="sleeper">
-                <label for="sleeper"> Sleeper </label><br>
-                <input type="checkbox" name="busType" value="seater">
-                <label for="seater"> Seater </label><br>
-                <input type="checkbox" name="busType" value="volvo">
-                <label for="volvo"> Volvo </label><br>
-            </fieldset>
-            <fieldset>
-                <legend>Source</legend>
-                <input type="text" name="source" value="0"/>
-            </fieldset>
-            <fieldset>
-                <legend>Destination</legend>
-                <input type="text" name="destination" value="11"/>
-            </fieldset>
-            <fieldset>
-                <legend>Departure</legend>
-                <input type="time" name="departTime" value="00:00">
-            </fieldset>
-            <fieldset>
-                <legend>Arrival</legend>
-                <input type="time" name="arrivalTime" value="00:00">
-            </fieldset>
-            <fieldset>
-                <legend>Duration</legend>
-                <input type="number" name="hours" min="0" max="24">
-                <input type="number" name="minutes" min="0" max="59">
-            </fieldset>
-            <fieldset>
-                <legend>Seat fare</legend>
-                <input type="number" name="seatFare" min=0>
-            </fieldset>
-            <fieldset>
-                <legend>Sleeper fare</legend>
-                <input type="number" name="sleeperFare" min=0>
-            </fieldset>
-            <fieldset>
-                <legend>Agent Seat fare</legend>
-                <input type="number" name="agentSeatFare" min=0>
-            </fieldset>
-            <fieldset>
-                <legend>Agent Sleeper fare</legend>
-                <input type="number" name="agentSleeperFare" min=0>
-            </fieldset>
-            <fieldset>
-                <legend>Amenities</legend>
-                <input type="checkbox" name="amenities" value="blanket">
-                <label for="blanket"> Blanket </label><br>
-                <input type="checkbox" name="amenities" value="water_bottle">
-                <label for="water_bottle"> Water Bottle </label><br>
-                <input type="checkbox" name="amenities" value="snacks">
-                <label for="snacks"> Snacks </label><br>
-                <input type="checkbox" name="amenities" value="charging_point">
-                <label for="charging_point"> Charging point </label><br>
-                <input type="checkbox" name="amenities" value="movie">
-                <label for="movie"> Movie </label><br>
-                <input type="checkbox" name="amenities" value="track_my_bus">
-                <label for="track_my_bus"> Bus Tracker </label><br>
-                <input type="checkbox" name="amenities" value="emergency_contact">
-                <label for="emergency_contact"> Emergency Contact </label><br>
-                <input type="checkbox" name="amenities" value="toilet">
-                <label for="toilet"> Toilet </label><br>
-                <input type="checkbox" name="amenities" value="reschedulable">
-                <label for="reschedulable"> Reschedulable </label><br>
-                <input type="checkbox" name="amenities" value="liveTracking">
-                <label for="liveTracking"> Live Tracking </label><br>
-            </fieldset>
-            <fieldset>
-                <legend>Bus Chart Type</legend>
-                <select name="chart">
-                    <option value="35-seater">35 Seater</option>
-                    <option value="45-seater">45 Seater</option>
-                </select>
-            </fieldset>
-            <fieldset>
-                <legend>Running Days</legend>
-                <div class="weekDays-selector">
-                    <input type="checkbox" name="runningDays" value="monday" id="weekday-mon" class="weekday" />
-                    <label for="weekday-mon">M</label>
-                    <input type="checkbox" name="runningDays" value="tuesday" id="weekday-tue" class="weekday" />
-                    <label for="weekday-tue">T</label>
-                    <input type="checkbox" name="runningDays" value="wednesday" id="weekday-wed" class="weekday" />
-                    <label for="weekday-wed">W</label>
-                    <input type="checkbox" name="runningDays" value="thursday" id="weekday-thu" class="weekday" />
-                    <label for="weekday-thu">T</label>
-                    <input type="checkbox" name="runningDays" value="friday" id="weekday-fri" class="weekday" />
-                    <label for="weekday-fri">F</label>
-                    <input type="checkbox" name="runningDays" value="saturday" id="weekday-sat" class="weekday" />
-                    <label for="weekday-sat">S</label>
-                    <input type="checkbox" name="runningDays" value="sunday" id="weekday-sun" class="weekday" />
-                    <label for="weekday-sun">S</label>
-                  </div>
-            </fieldset>
-            <button id="createNewBusButton">Add</button>
-            <!-- "boarding_point": {
-                    "array": "busStopType"
-                },
-                "dropping_point": {
-                    "array": "busStopType"
-                }, -->
-        </form>
-    </section>
-    <section>
+      </section>
+      <section id="addBusForm">
+        <bus-form class="hidden"></bus-form>
+      </section>
+      <section id="filterPanel">
+        <div id="filters">Filters</div>
+      </section>
+      <section id="busList">
         <bus-list></bus-list>
-    </section>
-    <section id="seatList"></section>
-</body>
-<script type="module" src="scripts/busList.js"></script>
-<script type="module" src="scripts/index.js"></script>
+      </section>
+    <script type="module" src="scripts/index.js"></script>
+    <script type="module" src="scripts/list.js"></script>
+    <script type="module" src="scripts/entry.js"></script>
+    <script type="module" src="scripts/addBusForm.js"></script>
+  </body>
 </html>

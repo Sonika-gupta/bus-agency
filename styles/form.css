@@ -1,0 +1,26 @@
+:host {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0 0 0 / 40%);
+}
+form {
+  background-color: #eee;
+  width: 60%;
+  margin: 60px auto;
+  padding: 20px;
+  /* border: 1px solid #888; */
+  display: flex;
+  flex-direction: column;
+}
+fieldset {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  padding: auto 5px;
+  margin: 5px;
+}
