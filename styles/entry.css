@@ -1,0 +1,37 @@
+.item {
+  display: grid;
+  grid-template-columns: 20% auto 15%;
+  margin: 10px auto;
+  padding: 10px;
+  border: solid 2px rgb(242, 242, 242);
+  grid-gap: 10px;
+}
+.item:hover {
+  background-color: #fff;
+  box-shadow: 0 10px 10px -6px rgb(0 0 0 / 10%);
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stop-location span, .details span{
+  padding: 3px;
+  margin: 2px;
+}
+.duration {
+  margin: auto 0;
+}
+.panel {
+  display: flex;
+  justify-content: space-evenly;
+}
+.emphasis {
+  text-transform: capitalize;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: rgb(0 0 0 / 90%);
+}
+#viewSeatsButton {
+  margin: auto;
+}
