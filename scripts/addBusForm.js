@@ -6,17 +6,17 @@ template.innerHTML = `
 <form name="addBus">
   <fieldset>
     <div class="field">
-      <label for="busNumber">Bus number</label>
-      <input type="text" name="busNumber" />
+      <label for="bus_number">Bus number</label>
+      <input type="text" name="bus_number" />
     </div>
     <div class="field">
-      <label for="name">Bus name</label>
-      <input type="text" name="busName" />
+      <label for="bus_name">Bus name</label>
+      <input type="text" name="bus_name" />
     </div>
   </fieldset>
   <fieldset>
-    <label for="busType">Bus Type</label>
-    <select name="busType">
+    <label for="bus_type">Bus Type</label>
+    <select name="bus_type">
       <option value="non-AC seater">Non-AC Seater</option>
       <option value="non-AC seater sleeper">Non-AC Seater Sleeper</option>
       <option value="AC seater sleeper">AC Seater Sleeper</option>
@@ -40,10 +40,10 @@ template.innerHTML = `
   </fieldset>
   <fieldset>
     <div>
-      <label for="departTime">Departure</label>
-      <input type="time" name="departTime" value="00:00" />
-      <label for="arrivalTime">Arrival</label>
-      <input type="time" name="arrivalTime" value="00:00" />
+      <label for="depart_time">Departure</label>
+      <input type="time" name="depart_time" value="00:00" />
+      <label for="arrival_time">Arrival</label>
+      <input type="time" name="arrival_time" value="00:00" />
     </div>
     <div>
       <label>Duration</label>
@@ -63,14 +63,6 @@ template.innerHTML = `
       />
       <label for="all-days">All</label>
       -->
-      <input
-        type="checkbox"
-        name="runningDays"
-        value="monday"
-        id="weekday-mon"
-        class="weekday"
-      />
-      <label for="weekday-mon">M</label>
       <input
         type="checkbox"
         name="runningDays"
@@ -176,6 +168,7 @@ class BusForm extends HTMLElement {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
   }
+
   render() {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     const busForm = this.shadowRoot.querySelector('form[name = "addBus"]');
@@ -184,11 +177,11 @@ class BusForm extends HTMLElement {
     const daySelectors = this.shadowRoot.querySelectorAll('input[name="runningDays"]')
     daySelectors.forEach(checkbox => {
       checkbox.onclick = () => {
-        this.checked ? 
+        this.checked ?
       }
     }
     .onclick = selectall
-    
+
     function selectall() {
       console.log(daySelectors)
       for (var checkbox of daySelectors) {
@@ -196,18 +189,20 @@ class BusForm extends HTMLElement {
       }
     } */
   }
+
   connectedCallback() {
     this.render();
     console.log("Bus Form is connected!");
   }
+
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handle submit', e.target.action);
+    console.log("handle submit", e.target.action);
     const data = new FormData(e.target);
     const value = Object.fromEntries(data.entries());
     value.amenities = data.getAll("amenities");
     value.running_days = data.getAll("runningDays");
-    console.log(value)
+    console.log(value);
     newBus(value).then((result) => {
       console.log(result);
     });

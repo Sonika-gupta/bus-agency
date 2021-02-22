@@ -16,17 +16,10 @@ class BusList extends HTMLElement {
     const list = JSON.parse(this.getAttribute('list'))
     if(list) {
       list.forEach(item => {
-        // console.log(item)
-        const entry = createItem('bus-entry', {
-          id: `item${item.id}`,
-          number: item.bus_number,
-          name: item.bus_name,
-          departTime: item.depart_time,
-          arrivalTime: item.arrival_time,
-          duration: item.duration,
-          source: item.source,
-          destination: item.destination,
-          seatFare: item.seat_fare,
+        console.log(item)
+        const entry = createItem('bus-entry')
+        Object.keys(entry.props).forEach(key => {
+          entry.props[key] = item[key]
         })
         ul.appendChild(createItem('li', {}, entry))
       })
