@@ -1,5 +1,5 @@
 const defaultBus = require("./defaultBus");
-const { camelCase, getPostgresValues } = require("./helpers");
+const { getPostgresValues } = require("./helpers");
 const { Pool } = require("pg");
 const connectionObj = {
   user: "postgres",
@@ -9,11 +9,11 @@ const connectionObj = {
 const pool = new Pool(connectionObj);
 pool.connect();
 
-function requestDb(text, response) {
-  console.log("Querying: ", text);
-  pool.query(text, (error, result) => {
+function requestDb(response, query, values = []) {
+  console.log("Querying: ", query);
+  pool.query(query, values, (error, result) => {
     if (error) {
-      response.status(500);
+      response.status(500).send(error);
       throw error;
     } else {
       response.status(200).send(result.rows);
@@ -23,30 +23,27 @@ function requestDb(text, response) {
 
 const readBuses = (request, response) => {
   const query = "SELECT * FROM buses ORDER BY last_modified";
-  return requestDb(query, response);
+  return requestDb(response, query);
 };
 const readBusById = (request, response) => {
-  const id = request.params.id;
-  const query = `SELECT * FROM buses WHERE id =${id}`;
-  requestDb(query, response);
+  const query = `SELECT * FROM buses WHERE id = $1`;
+  requestDb(response, query, [request.params.id]);
 };
 const createBus = (request, response) => {
-
   const props = Object.keys(defaultBus).join(",");
   const values = getPostgresValues(defaultBus, request.body).join(',')
-  const query = `INSERT INTO buses (${props}) VALUES (${values}) RETURNING *`;
+  const query = `INSERT INTO buses (${props}) VALUES (${values})`;
   console.log(props, values);
-  requestDb(query, response);
+  requestDb(response, query);
 };
 const updateBus = (request, response) => {
   const { id, key, value } = request.body;
-  const query = `UPDATE buses SET ${key} = '${value}' where id = ${id}`;
-  requestDb(query, response, { message: `Bus ${id} modified` });
+  const query = `UPDATE buses SET $1 = '$2' where id = $3`;
+  requestDb(response, query, [key, value, id]);
 };
 const deleteBus = (request, response) => {
-  const id = request.body.id;
-  const query = `DELETE FROM buses WHERE id = ${id}`;
-  requestDb(query, response, { message: `Bus ${id} Deleted` });
+  const query = `DELETE FROM buses WHERE id = $1`;
+  requestDb(response, query, [request.body.id]);
 };
 /* const deleteBuses = (request, response) => {
   const ids = request.body.ids
@@ -54,14 +51,13 @@ const deleteBus = (request, response) => {
   requestDb(query, response, { message: `Buses ${ids} Deleted` })
 } */
 const readSeats = (request, response) => {
-  const busId = request.params.busId;
-  const query = `SELECT * FROM seats WHERE busId = ${busId}`;
-  requestDb(query, response);
+  const query = `SELECT * FROM seats WHERE busId = $1`;
+  requestDb(response, query, [request.params.busId]);
 };
 const updateSeat = (request, response) => {
   const { id, key, value } = request.body;
-  const query = `UPDATE seats SET ${key} = '${value}' where id = ${id}`;
-  requestDb(query, response, { message: `Seat ${id} modified` });
+  const query = `UPDATE seats SET $1 = '$2' where id = $3`;
+  requestDb(response, query, [key, value, id]);
 };
 
 module.exports = {
