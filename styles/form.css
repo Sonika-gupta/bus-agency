@@ -1,14 +1,49 @@
 form {
   background-color: #eee;
-  padding: 20px;
-  /* border: 1px solid #888; */
+  padding: 10px;
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
+}
+label {
+  font-size: 0.9em;
+  padding: 2px;
+  margin: auto;
+  text-transform: capitalize;
 }
 fieldset {
   background-color: white;
   border: none;
   border-radius: 5px;
-  padding: auto 5px;
-  margin: 5px;
+  margin: 5px 2px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 4px;
+}
+input, select {
+  line-height: 17px;
+  border: solid 1px #aaa;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+select {
+  background-color: white;
+}
+input[type="number"] {
+  width: 70px;
+}
+legend {
+  background-color: #eee;
+  font-size: 0.9em;
+  padding: 2px;
+}
+.field {
+  margin: auto 3px;
+  padding-right: 3px;
+}
+#busNumber {
+  width: 70px;
+}
+#createNewBusButton {
+  
 }

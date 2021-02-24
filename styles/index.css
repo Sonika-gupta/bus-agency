@@ -30,7 +30,7 @@ nav {
   font-weight: bold;
 }
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -43,6 +43,7 @@ nav {
 .modal-content {
   width: 60%;
   margin: 60px auto;
+  box-shadow: 0 0 2px -1px white;
 }
 .hidden {
   display: none;
