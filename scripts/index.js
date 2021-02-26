@@ -1,17 +1,17 @@
 import { getBuses, getBus, newBus, updateBus, deleteBuses, getSeats, updateSeat } from './app.js'
 
-function handleSearch(e) {
+function handleSearch (e) {
   e.preventDefault()
   const data = new FormData(e.target)
   console.log(data)
 }
-function loadList() {
+function loadList () {
   getBuses().then(buses => {
     console.log('index.js', buses)
     document.querySelector('bus-list').setAttribute('list', JSON.stringify(buses))
   })
 }
-/* function enableUserOptions() {
+function enableUserOptions () {
   const userPanel = document.getElementById('user')
   const userOptions = document.querySelector('.userOptions')
   userPanel.addEventListener('click', () => {
@@ -23,16 +23,12 @@ function loadList() {
   document.querySelector('nav').onmouseleave = () => {
     console.log('mouse left nav')
   }
-} */
-
-(function load() {
+}
+function showForm () {
+  document.querySelector('#addBusSection').classList.remove('hidden')
+}
+(function load () {
   loadList()
+  document.querySelector('#showFormButton').onclick = showForm
   // enableUserOptions()
-  document.querySelector('#addBusButton').addEventListener('click', () => {
-    document.querySelector('#addBusForm').classList.remove('hidden')
-  })
-  /* 
-  const searchForm = document.forms["search"]
-  searchForm.addEventListener('submit', handleSearch) */
-  
 })()

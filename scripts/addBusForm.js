@@ -1,6 +1,7 @@
-import { newBus } from "./app.js";
+import { newBus } from './app.js'
+import { calcDuration } from './utils.js'
 
-const template = document.createElement("template");
+const template = document.createElement('template')
 template.innerHTML = `
 <link rel="stylesheet" href="/styles/form.css" />
 <form name="addBus">
@@ -79,7 +80,6 @@ template.innerHTML = `
       <label>Running Days</label>
       <input
         type="checkbox"
-        name="running_days"
         id="allDays"
         class="selectAll"
         value="all"
@@ -140,7 +140,6 @@ template.innerHTML = `
     <div class="field">
       <label>Amenities</label>
       <input
-        name="amenities"
         id="allAmenities"
         class="selectAll"
         type="checkbox"
@@ -215,73 +214,68 @@ template.innerHTML = `
     </div>
   </div>
   <div class="submit">
-    <default-button text="Add"></default-button>
+    <default-button id="addBusButton" text="Add" type="submit"></default-button>
   </div>
 </form>
-`;
+`
 class BusForm extends HTMLElement {
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: "open" });
+  constructor () {
+    super()
+    this.shadow = this.attachShadow({ mode: 'open' })
   }
 
-  render() {
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    const busForm = this.shadowRoot.querySelector('form[name = "addBus"]');
-    busForm.addEventListener("submit", this.handleSubmit);
-    this.addSelectAllEvents();
-    /* const allDaysSelector = this.shadowRoot.getElementById('all-days')
-    const daySelectors = this.shadowRoot.querySelectorAll('input[name="running_days"]')
-    daySelectors.forEach(checkbox => {
-      checkbox.onclick = () => {
-        this.checked ?
-      }
-    }
-    .onclick = selectall
-
-    function selectall() {
-      console.log(daySelectors)
-      for (var checkbox of daySelectors) {
-        checkbox.checked = this.checked
-      }
-    } */
+  render () {
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    const busForm = this.shadowRoot.querySelector('form[name = "addBus"]')
+    busForm.addEventListener('submit', this.handleSubmit)
+    this.addSelectAllEvents()
+    this.addDuration()
   }
 
-  connectedCallback() {
-    this.render();
-    console.log("Bus Form is connected!");
+  connectedCallback () {
+    this.render()
+    console.log('Bus Form is connected!')
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log("handle submit", e.target.action);
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
-    value.amenities = data.getAll("amenities");
-    value.running_days = data.getAll("running_days");
-    console.log(value);
+  handleSubmit (e) {
+    e.preventDefault()
+    console.log('handle submit', e.target.action)
+    const data = new FormData(e.target)
+    const value = Object.fromEntries(data.entries())
+    value.amenities = data.getAll('amenities')
+    value.running_days = data.getAll('running_days')
+    console.log(value)
     newBus(value).then((result) => {
-      console.log(result);
-    });
+      console.log(result)
+    })
   }
 
-  addSelectAllEvents() {
-    const selectAll = this.shadowRoot.querySelectorAll(".selectAll");
+  addSelectAllEvents () {
+    const selectAll = this.shadowRoot.querySelectorAll('.selectAll')
     selectAll.forEach((selector) => {
-      selector.parentNode.addEventListener("click", function (event) {
+      selector.parentNode.addEventListener('click', function (event) {
         const checkboxes = this.querySelectorAll('input[type="checkbox"]:not(.selectAll)')
         const clicked = event.target
         console.log(checkboxes)
-        if(clicked.className === 'selectAll') {
-          checkboxes.forEach(checkbox => checkbox.checked = selector.checked)
+        if (clicked.className === 'selectAll') {
+          checkboxes.forEach(checkbox => (checkbox.checked = selector.checked))
+        } else {
+          const isAllChecked = Array.from(checkboxes).reduce((checked, checkbox) => checked && checkbox.checked, true)
+          console.log(isAllChecked)
+          selector.checked = isAllChecked
         }
-        else {
-          const isAll = Array.from(checkboxes).reduce((checked, checkbox) => checked && checkbox.checked)
-          console.log(isAll)
-          selector.checked = isAll
-        }
-      });
-    });
+      })
+    })
+  }
+
+  addDuration () {
+    const duration = this.shadowRoot.querySelector('#duration')
+    const timeInputs = this.shadowRoot.querySelectorAll('input[type="time"]')
+    timeInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        duration.value = calcDuration(...Array.from(timeInputs).map(input => input.value))
+      })
+    })
   }
 }
-customElements.define("bus-form", BusForm);
+customElements.define('bus-form', BusForm)

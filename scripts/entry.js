@@ -1,7 +1,8 @@
+import { calcDuration } from './utils.js'
 class BusEntry extends HTMLElement {
-  constructor() {
-    super();
-    this.shadow = this.attachShadow({ mode: "open" });
+  constructor () {
+    super()
+    this.shadow = this.attachShadow({ mode: 'open' })
     this.props = {
       bus_number: 0,
       bus_name: '',
@@ -18,8 +19,9 @@ class BusEntry extends HTMLElement {
       agent_sleeper_fare: 0
     }
   }
-  render() {
-    const template = document.createElement("template");
+
+  render () {
+    const template = document.createElement('template')
     template.innerHTML = `
     <link rel="stylesheet" href="/styles/entry.css" />
     <div class="item">
@@ -33,9 +35,7 @@ class BusEntry extends HTMLElement {
           <span class="emphasis">${this.props.depart_time}</span>
           <span>${this.props.source}</span>
         </div>
-        <div class="duration col">
-          ${Date.parse(this.props.arrival_time) - Date.parse(this.props.depart_time)}
-        </div>
+        <div class="duration col">${calcDuration(this.props.depart_time, this.props.arrival_time)}</div>
         <div class="stop-location col">
           <span class="emphasis">${this.props.arrival_time}</span>
           <span>${this.props.destination}</span>
@@ -43,17 +43,22 @@ class BusEntry extends HTMLElement {
       </div>
       <div class="action col">
         <div>INR <span class="price emphasis">${this.props.seat_fare} /-</span></div>
-        <button id="viewSeatsButton">View Seats</button>
+        <default-button id="viewSeatsButton" text="View Seats"></default-button>
       </div>
     </div>
-    `;
+    `
+    // this.calculateDuration()
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+  }
 
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    // this.shadowRoot.querySelector('#number').innerText = this.getAttribute('number')
+  connectedCallback () {
+    this.render()
+    console.log('Entry is connected!')
   }
-  connectedCallback() {
-    this.render();
-    console.log("Entry is connected!", this.arrivalTime);
-  }
+
+/*   calculateDuration () {
+    return '00:00'
+    // calcDuration(this.depart_time, this.arrival_time)
+  } */
 }
-customElements.define("bus-entry", BusEntry);
+customElements.define('bus-entry', BusEntry)

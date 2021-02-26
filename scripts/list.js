@@ -8,13 +8,14 @@ template.innerHTML = `
 class BusList extends HTMLElement {
   constructor () {
     super()
-    this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: 'open' })
   }
-  render() {
+
+  render () {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     const ul = this.shadowRoot.querySelector('ul')
     const list = JSON.parse(this.getAttribute('list'))
-    if(list) {
+    if (list) {
       list.forEach(item => {
         console.log(item)
         const entry = createItem('bus-entry')
@@ -25,13 +26,16 @@ class BusList extends HTMLElement {
       })
     }
   }
-  static get observedAttributes() {
-    return ["list"]
+
+  static get observedAttributes () {
+    return ['list']
   }
+
   attributeChangedCallback (prop, oldval, newval) {
-    if(prop === "list") this.render()
+    if (prop === 'list') this.render()
   }
-  connectedCallback() {
+
+  connectedCallback () {
     console.log('List is connected!')
     this.render()
   }
