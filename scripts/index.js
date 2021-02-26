@@ -29,7 +29,7 @@ function loadList() {
   loadList()
   // enableUserOptions()
   document.querySelector('#addBusButton').addEventListener('click', () => {
-    document.querySelector('#addBusForm').style = 'display: block'
+    document.querySelector('#addBusForm').classList.remove('hidden')
   })
   /* 
   const searchForm = document.forms["search"]

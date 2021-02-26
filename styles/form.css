@@ -1,49 +1,68 @@
 form {
-  background-color: #eee;
+  background-color:white;
   padding: 10px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
+  width: 600px;
+/*   border-radius: 5px; */
 }
 label {
-  font-size: 0.9em;
   padding: 2px;
   margin: auto;
   text-transform: capitalize;
 }
-fieldset {
-  background-color: white;
-  border: none;
-  border-radius: 5px;
-  margin: 5px 2px;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px 4px;
+label:not(.checkbox-label) {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9em;
 }
-input, select {
-  line-height: 17px;
-  border: solid 1px #aaa;
-  border-radius: 5px;
-  padding: 2px 5px;
+input:not([type="checkbox"]), select, option {
+  border: 1px solid #ddd;
+  box-shadow: 0px 1px 2px 0px #ddd;
+  padding: 7px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 6px;
 }
 select {
   background-color: white;
 }
-input[type="number"] {
-  width: 70px;
-}
-legend {
-  background-color: #eee;
-  font-size: 0.9em;
-  padding: 2px;
-}
 .field {
+  width: 100%;
   margin: auto 3px;
   padding-right: 3px;
 }
-#busNumber {
-  width: 70px;
+.field>input:hover, select:hover {
+  box-shadow: inset 0 0 1px #aaa;
 }
-#createNewBusButton {
-  
+.fieldset {
+  background-color: white;
+  margin: 2px;
+  display: flex;
+  padding: 10px 4px;
 }
+.legend {
+  display: flex;
+}
+.small {
+  width: fit-content;
+} 
+.submit {
+  margin: auto;
+  margin-top: 10px;
+}
+/* #submitButton {
+  background-color: white;
+  width: 100px;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+#submitButton:hover {
+  box-shadow: 1px 1px 3px -1px #666;
+}
+
+#submitButton:focus {
+  background-color: white;
+} */
