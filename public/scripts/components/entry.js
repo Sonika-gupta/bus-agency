@@ -1,4 +1,4 @@
-import { calcDuration } from './utils.js'
+import { calcDuration } from '../utils.js'
 class BusEntry extends HTMLElement {
   constructor () {
     super()
@@ -47,7 +47,6 @@ class BusEntry extends HTMLElement {
       </div>
     </div>
     `
-    // this.calculateDuration()
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
@@ -55,10 +54,5 @@ class BusEntry extends HTMLElement {
     this.render()
     console.log('Entry is connected!')
   }
-
-/*   calculateDuration () {
-    return '00:00'
-    // calcDuration(this.depart_time, this.arrival_time)
-  } */
 }
 customElements.define('bus-entry', BusEntry)

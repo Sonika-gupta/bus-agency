@@ -1,5 +1,5 @@
 
-function refine (data) {
+/* function refine (data) {
   if (typeof data === 'object') {
     if (Array.isArray(data)) {
       data.forEach((element) => {
@@ -9,7 +9,7 @@ function refine (data) {
   }
   return data
 }
-
+ */
 function createItem (type, props, ...children) {
   const item = document.createElement(type)
   if (props) Object.assign(item, props)

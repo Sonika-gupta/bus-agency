@@ -1,5 +1,3 @@
-/* eslint eqeqeq: "off" */
-
 async function request (route, data, method = 'GET') {
   console.log('requesting', route, data, method)
   const value = await window
@@ -18,11 +16,11 @@ async function request (route, data, method = 'GET') {
 function getBuses () {
   return request('buses')
 }
-function getBus (id) {
-  return request(`bus${id}`)
-}
 function newBus (bus) {
   return request('bus', bus, 'POST')
+}
+/* function getBus (id) {
+  return request(`bus${id}`)
 }
 function updateBus (id, key, value) {
   return request('bus', { id, key, value }, 'PUT')
@@ -35,13 +33,13 @@ function getSeats (busId) {
 }
 function updateSeat (id, key, value) {
   return request('task', { id, key, value }, 'PUT')
-}
+} */
 export {
   getBuses,
-  getBus,
-  newBus,
+  newBus
+/*   getBus,
   updateBus,
   deleteBuses,
   getSeats,
   updateSeat
-}
+ */ }

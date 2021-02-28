@@ -1,9 +1,11 @@
-import { createItem } from './utils.js'
+import { createItem } from '../utils.js'
 
 const template = document.createElement('template')
 template.innerHTML = `
 <link rel="stylesheet" href="/styles/list.css">
-<ul class="list"></ul>
+<ul class="list">
+  <slot name="entry"></slot>
+</ul>
 `
 class BusList extends HTMLElement {
   constructor () {
@@ -13,20 +15,21 @@ class BusList extends HTMLElement {
 
   render () {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    const ul = this.shadowRoot.querySelector('ul')
     const list = JSON.parse(this.getAttribute('list'))
     if (list) {
       list.forEach(item => {
         console.log(item)
+        // const entry = createItem('bus-entry', { slot: 'entry' })
         const entry = createItem('bus-entry')
         Object.keys(entry.props).forEach(key => {
           entry.props[key] = item[key]
         })
-        ul.appendChild(createItem('li', {}, entry))
+        this.shadowRoot.querySelector('ul').appendChild(createItem('li', {}, entry))
       })
     }
   }
 
+  // TODO: Segregate data from view.
   static get observedAttributes () {
     return ['list']
   }

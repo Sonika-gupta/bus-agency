@@ -1,5 +1,5 @@
-import { newBus } from './app.js'
-import { calcDuration } from './utils.js'
+import { newBus } from '../fetch.js'
+import { calcDuration } from '../utils.js'
 
 const template = document.createElement('template')
 template.innerHTML = `
