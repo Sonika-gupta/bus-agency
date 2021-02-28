@@ -1,3 +1,4 @@
+import { getBuses } from '../fetch.js'
 import { createItem } from '../utils.js'
 
 const template = document.createElement('template')
@@ -11,35 +12,38 @@ class BusList extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
+    this.list = []
   }
 
   render () {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    const list = JSON.parse(this.getAttribute('list'))
-    if (list) {
-      list.forEach(item => {
-        console.log(item)
-        // const entry = createItem('bus-entry', { slot: 'entry' })
-        const entry = createItem('bus-entry')
-        Object.keys(entry.props).forEach(key => {
-          entry.props[key] = item[key]
-        })
-        this.shadowRoot.querySelector('ul').appendChild(createItem('li', {}, entry))
-      })
+    if (this.list) {
+      this.list.forEach(item => this.addEntry(item))
     }
+    this.addEventListener('update', this.updateList)
   }
 
-  // TODO: Segregate data from view.
-  static get observedAttributes () {
-    return ['list']
+  addEntry (item) {
+    const entry = createItem('bus-entry', { slot: 'entry' })
+    Object.assign(entry.props, item)
+    entry.addEventListener('delete', () => this.deleteEntry(entry))
+    this.appendChild(entry)
   }
 
-  attributeChangedCallback (prop, oldval, newval) {
-    if (prop === 'list') this.render()
+  deleteEntry (entry) {
+    console.log('deleting')
+    for (let i = 0; i < this.list.length; i++) {
+      if (this.list[i].id === entry.props.id) {
+        this.list.splice(i, 1)
+        break
+      }
+    }
+    this.removeChild(entry)
   }
 
-  connectedCallback () {
+  async connectedCallback () {
     console.log('List is connected!')
+    this.list = await getBuses()
     this.render()
   }
 }

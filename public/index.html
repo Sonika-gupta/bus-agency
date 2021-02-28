@@ -17,30 +17,13 @@
         </div>
         <div id="user">
           <default-button id="showFormButton" text="Add Bus"></default-button>
-          <span id="username">Admin</span>
-          <i class="fa fa-sort-down"></i>
+<!--           <span id="username">Admin</span>
+          <i class="fa fa-sort-down"></i> -->
         </div>
       </nav>
     </header>
     <main>
-      <section id="searchPanel">
-        <form name="search">
-          <div>
-            <label for="sourceLocation">From</label>
-            <input id="sourceLocation" />
-          </div>
-          <div>
-            <label for="destinationLocation">To</label>
-            <input id="destinationLocation" />
-          </div>
-          <div>
-            <label for="travelDate">Date</label>
-            <input id="travelDate" type="date" />
-          </div>
-          <default-button type="submit" text="Search Buses"></default-button>
-        </form>
-      </section>
-      <section id="addBusSection" class="modal hidden">
+      <section id="busFormSection" class="modal hidden">
         <div class="modal-content">
           <div class="close">&times;</div>
           <bus-form></bus-form>

@@ -3,7 +3,8 @@ const db = require('../db')
 
 router.get('/', db.readBuses)
 
-router.post('/bus', db.createBus)
+router.post('/', db.createBus)
+router.delete('/:id', db.deleteBus)
 // router.get('/bus:id', db.readBusById)
 // router.put('/bus', db.updateBus)
 // router.delete('/buses', db.deleteBuses)

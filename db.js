@@ -7,7 +7,7 @@ const pool = new Pool(config.dbConnectionObj)
 pool.connect()
 
 function requestDb (response, query, values = []) {
-  console.log('Querying: ', query)
+  console.log('Querying: ', query, values)
   pool.query(query, values, (error, result) => {
     if (error) {
       response.status(500).send(error)
@@ -30,6 +30,10 @@ const createBus = (request, response) => {
   console.log(props, values)
   requestDb(response, query)
 }
+const deleteBus = (request, response) => {
+  const query = 'DELETE FROM buses WHERE id = $1'
+  requestDb(response, query, [request.params.id])
+}
 /* const readBusById = (request, response) => {
   const query = 'SELECT * FROM buses WHERE id = $1'
   requestDb(response, query, [request.params.id])
@@ -38,10 +42,6 @@ const updateBus = (request, response) => {
   const { id, key, value } = request.body
   const query = 'UPDATE buses SET $1 = \'$2\' where id = $3'
   requestDb(response, query, [key, value, id])
-}
-const deleteBus = (request, response) => {
-  const query = 'DELETE FROM buses WHERE id = $1'
-  requestDb(response, query, [request.body.id])
 }
 const deleteBuses = (request, response) => {
   const ids = request.body.ids
@@ -60,10 +60,10 @@ const updateSeat = (request, response) => {
  */
 module.exports = {
   readBuses,
-  createBus
+  createBus,
+  deleteBus
 /*   readBusById,
   updateBus,
-  deleteBus,
   deleteBuses,
   readSeats,
   updateSeat

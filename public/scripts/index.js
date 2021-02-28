@@ -1,23 +1,22 @@
-import { getBuses } from './fetch.js'
+const busFormSection = document.querySelector('#busFormSection')
+const busList = document.querySelector('bus-list')
 
-async function loadList () {
-  const buses = await getBuses()
-  console.log('index.js', buses)
+function showBusForm (data = {}) {
+  const form = document.querySelector('bus-form')
+  form.data = data
+  busFormSection.classList.remove('hidden')
+}
+function hideBusForm () {
+  busFormSection.classList.add('hidden')
+}
 
-  // TODO: Remove list from view. Send using slots.
-  document.querySelector('bus-list').setAttribute('list', JSON.stringify(buses))
-  /*   const busList = createItem('bus-list', { list: buses })
-  document.querySelector('#busListSection').appendChild(busList) */
-}
-/* function handleSearch (e) {
-  e.preventDefault()
-  const data = new FormData(e.target)
-  console.log(data)
-} */
-function showForm () {
-  document.querySelector('#addBusSection').classList.remove('hidden')
-}
 (function load () {
-  loadList()
-  document.querySelector('#showFormButton').onclick = showForm
+  document.querySelector('#showFormButton').onclick = showBusForm
+  busList.addEventListener('edit', (event) => {
+    showBusForm(event.detail)
+  })
+  busFormSection.addEventListener('update', (event) => {
+    hideBusForm()
+    busList.addEntry(event.detail)
+  })
 })()
