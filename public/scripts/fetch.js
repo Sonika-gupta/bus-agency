@@ -1,6 +1,6 @@
-async function request (route, data, method = 'GET') {
+async function fetch (route, data, method = 'GET') {
   console.log('requesting', route, data, method)
-  const value = await window
+  const res = await window
     .fetch('http://localhost:4000/' + route, {
       method,
       body: JSON.stringify(data),
@@ -8,45 +8,32 @@ async function request (route, data, method = 'GET') {
         'Content-Type': 'application/json'
       }
     })
-    .then((response) => {
-      // console.log(response)
-      return response.json()
-    })
+  const value = await res.json()
+
   if (value.error) throw Error(value)
+
   return value
 }
 
-function getBuses () {
-  return request('buses')
+async function getBuses () {
+  return await fetch('buses')
 }
+
 function newBus (bus) {
-  return request('buses', bus, 'POST')
+  return fetch('buses', bus, 'POST')
 }
+
 function deleteBus ({ id }) {
-  return request(`buses/${id}`, {}, 'delete')
+  return fetch(`buses/${id}`, {}, 'DELETE')
 }
-/* function getBus (id) {
-  return request(`bus${id}`)
+
+function updateBus (bus) {
+  return fetch('buses', bus, 'PUT')
 }
-function updateBus (id, key, value) {
-  return request('bus', { id, key, value }, 'PUT')
-}
-function deleteBuses (ids) {
-  return request('buses', { ids }, 'DELETE')
-}
-function getSeats (busId) {
-  return request(`tasks${busId}`)
-}
-function updateSeat (id, key, value) {
-  return request('task', { id, key, value }, 'PUT')
-} */
+
 export {
   getBuses,
   newBus,
-  deleteBus
-/*   getBus,
-  updateBus,
-  deleteBuses,
-  getSeats,
-  updateSeat
- */ }
+  deleteBus,
+  updateBus
+}

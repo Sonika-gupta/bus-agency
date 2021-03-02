@@ -1,13 +1,13 @@
+const { busController } = require('../controllers')
 const router = require('express').Router()
-const db = require('../db')
 
-router.get('/', db.readBuses)
+router.get('/', busController.readBuses)
 
-router.post('/', db.createBus)
-router.delete('/:id', db.deleteBus)
-// router.get('/bus:id', db.readBusById)
-// router.put('/bus', db.updateBus)
-// router.delete('/buses', db.deleteBuses)
-// router.delete('/bus', db.deleteBus)
+router.post('/', busController.createBus)
+router.delete('/:id', busController.deleteBus)
+// router.get('/bus:id', busController.readBusById)
+// router.put('/bus', busController.updateBus)
+// router.delete('/buses', busController.deleteBuses)
+// router.delete('/bus', busController.deleteBus)
 
 module.exports = router
