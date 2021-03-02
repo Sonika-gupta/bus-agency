@@ -145,7 +145,6 @@ class BusForm extends HTMLElement {
 
       try {
         await this.submit(value)
-        document.querySelector('bus-list').addEntry(value)
         this.dispatchEvent(new CustomEvent('close', { bubbles: true }))
       } catch (err) {
         window.alert(err)
