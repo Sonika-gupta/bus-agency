@@ -1,5 +1,3 @@
-import { createItem } from '../utils.js'
-
 class DefaultButton extends HTMLElement {
   render () {
     const template = document.createElement('template')
@@ -26,7 +24,7 @@ class DefaultButton extends HTMLElement {
         </style>
         `
     const component = template.content.cloneNode(true)
-    component.querySelector('button').onclick = this.onclick
+    component.querySelector('button').onclick = this.clickFunction
     this.appendChild(component)
   }
 

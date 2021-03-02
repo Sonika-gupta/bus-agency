@@ -35,14 +35,16 @@ class BusEntry extends HTMLElement {
       <div class="action col">
         <div>INR <span class="price emphasis">${this.props.seat_fare}</span> /- per seat</div>
         <div>
-          <i id="editBusButton" class="fa fa-edit" onclick=this.getRootNode().host.editBus()></i>
-          <i id="deleteBusButton" class="fa fa-trash-o" onclick=this.getRootNode().host.deleteBus()></i>
+          <i id="editBusButton" class="fa fa-edit"></i>
+          <i id="deleteBusButton" class="fa fa-trash-o"></i>
         </div>
         <!-- <default-button id="viewSeatsButton" text="View Seats"></default-button> -->
       </div>
     </div>
     `
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.shadowRoot.querySelector('#editBusButton').onclick = () => this.editBus()
+    this.shadowRoot.querySelector('#deleteBusButton').onclick = () => this.deleteBus()
   }
 
   connectedCallback () {
@@ -50,7 +52,11 @@ class BusEntry extends HTMLElement {
     console.log('Entry is connected!')
   }
 
-  editBus () {
+  disconnectedCallback () {
+    this.remove()
+  }
+
+  editBusHandler () {
     const editEntry = new CustomEvent('edit', {
       bubbles: true,
       detail: this.props
@@ -58,18 +64,36 @@ class BusEntry extends HTMLElement {
     this.dispatchEvent(editEntry)
   }
 
-  deleteBus () {
+  /*   async handleSubmit (e) {
+    e.preventDefault()
+    console.log('handle submit', e.target.action)
+    const data = new FormData(e.target)
+    const value = Object.fromEntries(data.entries())
+    value.amenities = data.getAll('amenities')
+    value.running_days = data.getAll('running_days')
+    try {
+      const res = newBus(value)
+      console.log('Bus Added Successfully', res)
+      const saveEntry = new CustomEvent('save', { bubbles: true, detail: value })
+      this.getRootNode().host.dispatchEvent(saveEntry)
+    } catch (err) {
+      window.alert(err)
+    }
+  } */
+
+  async deleteBus () {
     // TODO: Use Notification Modal
     if (window.confirm(`Delete Bus ${this.props.bus_name}?`)) {
-      deleteBus({ id: this.props.id }).then((response) => {
-        if (response.error) window.alert(response.error)
-        else {
-          console.log('Deleted Successfully')
-          const deleteEntry = new CustomEvent('delete', { bubbles: true })
-          this.dispatchEvent(deleteEntry)
-        }
-      })
+      try {
+        const res = await deleteBus({ id: this.props.id })
+        console.log('Deleted Successfully', res)
+        // TODO: update list?
+        this.disconnectedCallback()
+      } catch (error) {
+        window.alert(error)
+      }
     }
   }
 }
+
 customElements.define('bus-entry', BusEntry)

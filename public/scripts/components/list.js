@@ -30,21 +30,15 @@ class BusList extends HTMLElement {
     this.appendChild(entry)
   }
 
-  deleteEntry (entry) {
-    console.log('deleting')
-    for (let i = 0; i < this.list.length; i++) {
-      if (this.list[i].id === entry.props.id) {
-        this.list.splice(i, 1)
-        break
-      }
-    }
-    this.removeChild(entry)
-  }
-
   async connectedCallback () {
     console.log('List is connected!')
     this.list = await getBuses()
     this.render()
   }
+
+  disconnectedCallback () {
+    this.remove()
+  }
 }
+
 customElements.define('bus-list', BusList)

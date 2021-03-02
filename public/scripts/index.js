@@ -1,22 +1,18 @@
-const busFormSection = document.querySelector('#busFormSection')
-const busList = document.querySelector('bus-list')
+import { newBus } from './fetch.js'
+import { createItem } from './utils.js'
 
-function showBusForm (data = {}) {
-  const form = document.querySelector('bus-form')
-  form.data = data
-  busFormSection.classList.remove('hidden')
+async function addBusHandler (value) {
+  const res = await newBus(value)
+  console.log('Bus Added Successfully', res)
+  return res
 }
-function hideBusForm () {
-  busFormSection.classList.add('hidden')
+
+function showBusForm (detail) {
+  const form = createItem('bus-form', { submit: addBusHandler })
+  document.body.appendChild(createItem('custom-modal', { content: form }, form))
 }
 
 (function load () {
-  document.querySelector('#showFormButton').onclick = showBusForm
-  busList.addEventListener('edit', (event) => {
-    showBusForm(event.detail)
-  })
-  busFormSection.addEventListener('update', (event) => {
-    hideBusForm()
-    busList.addEntry(event.detail)
-  })
+  document.querySelector('#showFormButton').clickFunction = showBusForm
+  // document.querySelector('custom-modal').addEventListener('success', (event) => busList.addEntry(event.detail))
 })()
