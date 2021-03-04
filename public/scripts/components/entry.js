@@ -59,20 +59,20 @@ class BusEntry extends HTMLElement {
   editBus () {
     showBusForm(async (value) => {
       this.props = await this.editBusHandler(value)
-      this.editEntry()
-      document.querySelector('bus-form').dispatchEvent(new CustomEvent('close', { bubbles: true }))
+      // this.dispatchEvent(new CustomEvent('update', { bubbles: true }))
+      this.update()
     }, this.props)
   }
 
-  editEntry () {
-    console.log('editing', this.props)
-    this.remove()
+  update () {
+    this.shadowRoot.innerHTML = ''
     this.render()
   }
 
   async editBusHandler (value) {
     const res = await updateBus(value)
-    console.log('Bus Updated Successfully', res[0].id)
+    console.log('Bus Updated Successfully', res[0])
+    document.querySelector('bus-form').dispatchEvent(new CustomEvent('close', { bubbles: true }))
     return res[0]
   }
 

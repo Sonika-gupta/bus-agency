@@ -20,16 +20,23 @@ class BusList extends HTMLElement {
     if (this.list) {
       this.list.forEach(item => this.addEntry(item))
     }
-    this.addEventListener('update', this.updateList)
+    // this.addEventListener('update', this.updateEntry)
   }
 
   addEntry (item) {
-    const entry = createItem('bus-entry', { slot: 'entry' })
+    const entry = createItem('bus-entry', { slot: 'entry', id: item.id })
     Object.assign(entry.props, item)
     entry.addEventListener('delete', () => this.deleteEntry(entry))
     this.appendChild(entry)
   }
 
+  /*
+  updateEntry (event) {
+    console.log(event.target.props)
+    const a = this.querySelector(`bus-entry#${event.target.props.id}`)
+    this.replaceChild(a, event.target)
+  }
+ */
   async connectedCallback () {
     console.log('List is connected!')
     this.list = await getBuses()
