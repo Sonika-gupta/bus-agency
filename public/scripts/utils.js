@@ -1,15 +1,8 @@
-
-/* function refine (data) {
-  if (typeof data === 'object') {
-    if (Array.isArray(data)) {
-      data.forEach((element) => {
-        for (let j = 0; j < Object.keys(element); j++) {}
-      })
-    } else data = snakeToCamel(data)
-  }
-  return data
+function showBusForm (formSubmitFunction, data = {}) {
+  const form = createItem('bus-form', { data, submit: formSubmitFunction })
+  document.body.appendChild(createItem('custom-modal', { content: form }))
 }
- */
+
 function createItem (type, props, ...children) {
   const item = document.createElement(type)
   if (props) Object.assign(item, props)
@@ -30,4 +23,5 @@ function calcDuration (departTime, arrivalTime) {
   const duration = ((hoursA * 60 + minutesA) - (hoursD * 60 + minutesD))
   return `${Math.trunc(duration / 60)} hrs ${duration % 60} mins`
 }
-export { createItem, calcDuration }
+
+export { showBusForm, createItem, calcDuration }

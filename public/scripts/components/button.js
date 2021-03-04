@@ -32,4 +32,5 @@ class DefaultButton extends HTMLElement {
     this.render()
   }
 }
+
 customElements.define('default-button', DefaultButton)

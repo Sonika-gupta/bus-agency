@@ -98,3 +98,5 @@ state_id INT NOT NULL REFERENCES states(id)
 INSERT INTO 
 buses (bus_number, bus_name, source, destination, depart_time, arrival_time, boarding_points, dropping_points, seat_fare, sleeper_fare, agent_seat_fare, agent_sleeper_fare)
 values ('111', 'delhi-to-manali', '00', '11', '2020-06-22 00:00:00', '2020-06-22 00:08:00', '{"location": "rohini", "time": "00:00"}', '{"location": "manali-bus-stand", "time": "08:00"}', 0, 0, 0, 0); */
+	
+	

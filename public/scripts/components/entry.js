@@ -1,5 +1,5 @@
-import { calcDuration } from '../utils.js'
-import { deleteBus } from '../fetch.js'
+import { showBusForm, calcDuration } from '../utils.js'
+import { deleteBus, updateBus } from '../fetch.js'
 class BusEntry extends HTMLElement {
   constructor () {
     super()
@@ -56,30 +56,25 @@ class BusEntry extends HTMLElement {
     this.remove()
   }
 
-  editBusHandler () {
-    const editEntry = new CustomEvent('edit', {
-      bubbles: true,
-      detail: this.props
-    })
-    this.dispatchEvent(editEntry)
+  editBus () {
+    showBusForm(async (value) => {
+      this.props = await this.editBusHandler(value)
+      this.editEntry()
+      document.querySelector('bus-form').dispatchEvent(new CustomEvent('close', { bubbles: true }))
+    }, this.props)
   }
 
-  /*   async handleSubmit (e) {
-    e.preventDefault()
-    console.log('handle submit', e.target.action)
-    const data = new FormData(e.target)
-    const value = Object.fromEntries(data.entries())
-    value.amenities = data.getAll('amenities')
-    value.running_days = data.getAll('running_days')
-    try {
-      const res = newBus(value)
-      console.log('Bus Added Successfully', res)
-      const saveEntry = new CustomEvent('save', { bubbles: true, detail: value })
-      this.getRootNode().host.dispatchEvent(saveEntry)
-    } catch (err) {
-      window.alert(err)
-    }
-  } */
+  editEntry () {
+    console.log('editing', this.props)
+    this.remove()
+    this.render()
+  }
+
+  async editBusHandler (value) {
+    const res = await updateBus(value)
+    console.log('Bus Updated Successfully', res[0].id)
+    return res[0]
+  }
 
   async deleteBus () {
     // TODO: Use Notification Modal
@@ -87,7 +82,6 @@ class BusEntry extends HTMLElement {
       try {
         const res = await deleteBus({ id: this.props.id })
         console.log('Deleted Successfully', res)
-        // TODO: update list?
         this.disconnectedCallback()
       } catch (error) {
         window.alert(error)

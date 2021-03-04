@@ -14,11 +14,11 @@ class BusForm extends HTMLElement {
         <div class="fieldset">
           <div class="field small">
             <label for="bus_number">Bus number</label>
-            <input type="text" id="busNumber" name="bus_number" value=${this.data.bus_number} required />
+            <input type="text" id="busNumber" name="bus_number" value=${this.data.bus_number || ''} required />
           </div>
           <div class="field">
             <label for="bus_name">Bus name</label>
-            <input type="text" name="bus_name" value=${this.data.bus_name} required />
+            <input type="text" name="bus_name" value=${this.data.bus_name || ''} required />
           </div>
         </div>
         <div class="fieldset">
@@ -74,11 +74,11 @@ class BusForm extends HTMLElement {
           </div>
           <div class="field small">
             <label>Agent's Seat fare</label>
-            <input type="number" name="agentSeat_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
+            <input type="number" name="agent_seat_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
           </div>
           <div class="field small">
             <label>Agent's Sleeper fare</label>
-            <input type="number" name="agentSleeper_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
+            <input type="number" name="agent_sleeper_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
           </div>
         </div>
         <div class="fieldset">
@@ -136,19 +136,9 @@ class BusForm extends HTMLElement {
     `
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     const busForm = this.shadowRoot.querySelector('form')
-    busForm.addEventListener('submit', async (e) => {
+    busForm.addEventListener('submit', (e) => {
       e.preventDefault()
-      const data = new FormData(busForm)
-      const value = Object.fromEntries(data.entries())
-      value.amenities = data.getAll('amenities')
-      value.running_days = data.getAll('running_days')
-
-      try {
-        await this.submit(value)
-        this.dispatchEvent(new CustomEvent('close', { bubbles: true }))
-      } catch (err) {
-        window.alert(err)
-      }
+      this.handleSubmit(busForm)
     })
     this.addSelectAllEvents()
     this.addDuration()
@@ -157,6 +147,21 @@ class BusForm extends HTMLElement {
   connectedCallback () {
     this.render()
     console.log('Bus Form is connected!')
+  }
+
+  async handleSubmit (form) {
+    const data = new FormData(form)
+    const value = Object.fromEntries(data.entries())
+    value.amenities = data.getAll('amenities')
+    value.running_days = data.getAll('running_days')
+    Object.assign(this.data, value)
+
+    try {
+      await this.submit(this.data)
+    } catch (err) {
+      console.log(err)
+      window.alert('Error In Submitting')
+    }
   }
 
   addSelectAllEvents () {
@@ -177,6 +182,7 @@ class BusForm extends HTMLElement {
   }
 
   addDuration () {
+    // TODO: Give duration options with 24-hour-interval
     const duration = this.shadowRoot.querySelector('#duration')
     const timeInputs = this.shadowRoot.querySelectorAll('input[type="time"]')
     timeInputs.forEach((input) => {

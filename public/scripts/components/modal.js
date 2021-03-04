@@ -66,4 +66,5 @@ class CustomModal extends HTMLElement {
     this.remove()
   }
 }
+
 customElements.define('custom-modal', CustomModal)

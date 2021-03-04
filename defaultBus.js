@@ -7,7 +7,6 @@ module.exports = {
   arrival_time: '',
   chart: '35-seater',
   running_days: [],
-  // last_modified: Date.now(),
   seat_fare: 0,
   sleeper_fare: 0,
   agent_seat_fare: 0,

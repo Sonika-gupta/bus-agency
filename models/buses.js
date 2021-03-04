@@ -30,71 +30,57 @@ async function createBus (object) {
   }
 }
 
-async function deleteBus () {
+async function deleteBus (id) {
   const query = 'DELETE FROM buses WHERE id = $1'
   try {
-    const result = await pool.query(query)
+    const result = await pool.query(query, [id])
     return result.rows
   } catch (error) {
     console.log(error)
   }
 }
-/* async function readBusById () {
-  const query = 'SELECT * FROM buses WHERE id = $1'
-try {
-    const result = await pool.query(query)
+async function updateBus (bus) {
+  console.log(bus)
+  const query = `UPDATE buses
+    SET bus_number = $1,
+    bus_name = $2,
+    source = $3,
+    destination = $4,
+    depart_time = $5,
+    arrival_time = $6,
+    chart = $7,
+    running_days = $8,
+    seat_fare = $9,
+    sleeper_fare = $10,
+    agent_seat_fare = $11,
+    agent_sleeper_fare = $12
+    where id = $13
+    RETURNING *`
+  const values = [bus.bus_number,
+    bus.bus_name,
+    bus.source,
+    bus.destination,
+    bus.depart_time,
+    bus.arrival_time,
+    bus.chart,
+    bus.running_days,
+    bus.seat_fare,
+    bus.sleeper_fare,
+    bus.agent_seat_fare,
+    bus.agent_sleeper_fare,
+    bus.id]
+
+  console.log(query)
+  try {
+    const result = await pool.query(query, values)
     return result.rows
   } catch (error) {
     console.log(error)
   }
 }
-async function updateBus () {
-  const { id, key, value } = request.body
-  const query = 'UPDATE buses SET $1 = \'$2\' where id = $3'
-try {
-    const result = await pool.query(query)
-    return result.rows
-  } catch (error) {
-    console.log(error)
-  }
-}
-async function deleteBuses () {
-  const ids = request.body.ids
-  const query = `DELETE FROM buses WHERE id IN (${ids.join(', ')})`
-try {
-    const result = await pool.query(query)
-    return result.rows
-  } catch (error) {
-    console.log(error)
-  }
-}
-async function readSeats () {
-  const query = 'SELECT * FROM seats WHERE busId = $1'
-try {
-    const result = await pool.query(query)
-    return result.rows
-  } catch (error) {
-    console.log(error)
-  }
-}
-async function updateSeat () {
-  const { id, key, value } = request.body
-  const query = 'UPDATE seats SET $1 = \'$2\' where id = $3'
-try {
-    const result = await pool.query(query)
-    return result.rows
-  } catch (error) {
-    console.log(error)
-  }
-}
- */
 module.exports = {
   getAllBuses,
   createBus,
-  deleteBus
-/*   readBusById,
-  updateBus,
-  deleteBuses,
-  readSeats,
-  updateSeat
- */ }
+  deleteBus,
+  updateBus
+}

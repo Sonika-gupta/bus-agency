@@ -5,8 +5,8 @@ router.get('/', busController.readBuses)
 
 router.post('/', busController.createBus)
 router.delete('/:id', busController.deleteBus)
+router.put('/', busController.updateBus)
 // router.get('/bus:id', busController.readBusById)
-// router.put('/bus', busController.updateBus)
 // router.delete('/buses', busController.deleteBuses)
 // router.delete('/bus', busController.deleteBus)
 
