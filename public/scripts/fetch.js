@@ -1,7 +1,9 @@
+const url = 'http://localhost:4000/'
+
 async function fetch (route, data, method = 'GET') {
   console.log('requesting', route, data, method)
   const res = await window
-    .fetch('http://localhost:4000/' + route, {
+    .fetch(url + route, {
       method,
       body: JSON.stringify(data),
       headers: {
@@ -16,7 +18,17 @@ async function fetch (route, data, method = 'GET') {
 }
 
 async function getBuses () {
-  return await fetch('buses')
+  const res = await window.fetch(url + 'buses')
+  return await res.json()
+  // return await fetch('buses')
+}
+
+async function searchBuses (filters) {
+  console.log(filters)
+  const url = new URL('http://localhost:4000/buses/filter')
+  url.search = new URLSearchParams(filters).toString()
+  const res = await window.fetch(url)
+  console.log(res)
 }
 
 function newBus (bus) {
@@ -33,6 +45,7 @@ function updateBus (bus) {
 
 export {
   getBuses,
+  searchBuses,
   newBus,
   deleteBus,
   updateBus

@@ -1,5 +1,6 @@
 import { showBusForm, calcDuration } from '../utils.js'
 import { deleteBus, updateBus } from '../fetch.js'
+
 class BusEntry extends HTMLElement {
   constructor () {
     super()
@@ -8,6 +9,7 @@ class BusEntry extends HTMLElement {
   }
 
   render () {
+    // TODO: Move script out of render
     const template = document.createElement('template')
     template.innerHTML = `
     <link
@@ -33,7 +35,7 @@ class BusEntry extends HTMLElement {
         </div>
       </div>
       <div class="action col">
-        <div>INR <span class="price emphasis">${this.props.seat_fare}</span> /- per seat</div>
+        <div>₹ <span class="price emphasis">${this.props.seat_fare}</span>/seat</div>
         <div>
           <i id="editBusButton" class="fa fa-edit"></i>
           <i id="deleteBusButton" class="fa fa-trash-o"></i>

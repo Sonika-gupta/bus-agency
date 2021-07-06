@@ -1,12 +1,13 @@
 import { calcDuration } from '../utils.js'
+
 class BusForm extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.data = {}
   }
 
   render () {
+    // TODO: Provide values to template through javascript
     const template = document.createElement('template')
     template.innerHTML = `
       <link rel="stylesheet" href="/styles/form.css" />
@@ -14,11 +15,11 @@ class BusForm extends HTMLElement {
         <div class="fieldset">
           <div class="field small">
             <label for="bus_number">Bus number</label>
-            <input type="text" id="busNumber" name="bus_number" value=${this.data.bus_number || ''} required />
+            <input type="text" id="busNumber" name="bus_number" value='' required />
           </div>
           <div class="field">
             <label for="bus_name">Bus name</label>
-            <input type="text" name="bus_name" value=${this.data.bus_name || ''} required />
+            <input type="text" name="bus_name" value='' required />
           </div>
         </div>
         <div class="fieldset">
@@ -42,21 +43,21 @@ class BusForm extends HTMLElement {
         <div class="fieldset">
           <div class="field">
             <label for="source">Source</label>
-            <input type="text" name="source" value=${this.data.source || 'Delhi'} required />
+            <input type="text" name="source" value='Delhi' required />
           </div>
           <div class="field">
             <label for="destination">Destination</label>
-            <input type="text" name="destination" value=${this.data.destination || 'Dehradun'} required />
+            <input type="text" name="destination" value='Dehradun' required />
           </div>
         </div>
         <div class="fieldset">
           <div class="field">
             <label for="depart_time">Departure</label>
-            <input type="time" name="depart_time" value=${this.data.depart_time || '00:00'} required />
+            <input type="time" name="depart_time" value='00:00' required />
           </div>
           <div class="field">
             <label for="arrival_time">Arrival</label>
-            <input type="time" name="arrival_time" value=${this.data.arrival_time || '00:00'} required />
+            <input type="time" name="arrival_time" value='00:00' required />
           </div>
           <div class="field">
             <label>Duration</label>
@@ -66,19 +67,19 @@ class BusForm extends HTMLElement {
         <div class="fieldset">
           <div class="field small">
             <label>Seat fare</label>
-            <input type="number" name="seat_fare" min="0" value=${this.data.seat_fare || 0} required />
+            <input type="number" name="seat_fare" min="0" value= 0 required />
           </div>
           <div class="field small">
             <label>Sleeper fare</label>
-            <input type="number" name="sleeper_fare" min="0" value=${this.data.sleeper_fare || 0} required />
+            <input type="number" name="sleeper_fare" min="0" value= 0 required />
           </div>
           <div class="field small">
             <label>Agent's Seat fare</label>
-            <input type="number" name="agent_seat_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
+            <input type="number" name="agent_seat_fare" min="0" value= 0 required />
           </div>
           <div class="field small">
             <label>Agent's Sleeper fare</label>
-            <input type="number" name="agent_sleeper_fare" min="0" value=${this.data.agent_seat_fare || 0} required />
+            <input type="number" name="agent_sleeper_fare" min="0" value= 0 required />
           </div>
         </div>
         <div class="fieldset">
@@ -140,6 +141,7 @@ class BusForm extends HTMLElement {
       e.preventDefault()
       this.handleSubmit(busForm)
     })
+    this.feedData()
     this.addSelectAllEvents()
     this.addDuration()
   }
@@ -147,6 +149,22 @@ class BusForm extends HTMLElement {
   connectedCallback () {
     this.render()
     console.log('Bus Form is connected!')
+  }
+
+  feedData () {
+    this.shadowRoot.querySelectorAll('input:not([type="checkbox"]').forEach(input => {
+      input.value = this.data[input.name] || input.value
+    })
+    if (this.data.running_days) {
+      this.shadowRoot.querySelectorAll('input[name="running_days"]').forEach(checkbox => {
+        if (this.data.running_days.includes(checkbox.value)) checkbox.checked = true
+      })
+    }
+    if (this.data.amenities) {
+      this.shadowRoot.querySelectorAll('input[name="amenities"]').forEach(checkbox => {
+        if (this.data.amenities.includes(checkbox.id)) checkbox.checked = true
+      })
+    }
   }
 
   async handleSubmit (form) {
@@ -167,14 +185,13 @@ class BusForm extends HTMLElement {
   addSelectAllEvents () {
     const selectAll = this.shadowRoot.querySelectorAll('.selectAll')
     selectAll.forEach((selector) => {
-      selector.parentNode.addEventListener('click', function (event) {
+      selector.parentNode.addEventListener('change', function (event) {
         const checkboxes = this.querySelectorAll('input[type="checkbox"]:not(.selectAll)')
         const clicked = event.target
         if (clicked.className === 'selectAll') {
           checkboxes.forEach(checkbox => (checkbox.checked = selector.checked))
         } else {
           const isAllChecked = Array.from(checkboxes).reduce((checked, checkbox) => checked && checkbox.checked, true)
-          console.log(isAllChecked)
           selector.checked = isAllChecked
         }
       })

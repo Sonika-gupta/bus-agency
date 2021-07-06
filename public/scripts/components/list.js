@@ -8,6 +8,7 @@ template.innerHTML = `
   <slot name="entry"></slot>
 </ul>
 `
+
 class BusList extends HTMLElement {
   constructor () {
     super()
@@ -16,30 +17,30 @@ class BusList extends HTMLElement {
   }
 
   render () {
+    console.log(this.list)
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     if (this.list) {
       this.list.forEach(item => this.addEntry(item))
     }
-    // this.addEventListener('update', this.updateEntry)
   }
 
   addEntry (item) {
+    console.log(item)
     const entry = createItem('bus-entry', { slot: 'entry', id: item.id })
     Object.assign(entry.props, item)
     entry.addEventListener('delete', () => this.deleteEntry(entry))
     this.appendChild(entry)
   }
 
-  /*
-  updateEntry (event) {
-    console.log(event.target.props)
-    const a = this.querySelector(`bus-entry#${event.target.props.id}`)
-    this.replaceChild(a, event.target)
-  }
- */
   async connectedCallback () {
     console.log('List is connected!')
     this.list = await getBuses()
+    this.render()
+  }
+
+  updateList (buses) {
+    this.list = buses
+    this.shadowRoot.innerHTML = ''
     this.render()
   }
 
