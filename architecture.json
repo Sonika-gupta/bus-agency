@@ -1,0 +1,42 @@
+{
+    "user": {
+        "type": [
+            "admin",
+            "agent",
+            "customer"
+        ],
+        "access": {
+            "admin": {
+                "bus": [
+                    "create",
+                    "read",
+                    "update",
+                    "delete"
+                ],
+                "seat": [
+                    "book",
+                    "cancel",
+                    "disbale"
+                ]
+            },
+            "agent": {
+                "bus": [
+                    "read"
+                ],
+                "seat": [
+                    "book",
+                    "cancel"
+                ]
+            },
+            "customer": {
+                "bus": [
+                    "read"
+                ],
+                "seat": [
+                    "book",
+                    "cancel"
+                ]
+            }
+        }
+    }
+}
