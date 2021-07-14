@@ -8,7 +8,18 @@
   - Add Bus Button
   - User Details
 
-- Container
+- SideBar
+
+  - Advanced Search [with filters]
+  - Users
+  - Buses
+  - Manage Bookings
+
+- Users
+
+  - User Cards
+
+- Buses
   - Bus Cards (expandable)
     - Bus Number
     - Bus Name

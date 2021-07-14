@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+flow.md
+package-lock.json
+src/components/xtra.js
+.gitignore
+flow.md
