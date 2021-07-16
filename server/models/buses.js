@@ -58,7 +58,8 @@ async function updateBus (bus) {
     amenities = $13
     where id = $14
     RETURNING *`
-  const values = [bus.bus_number,
+  const values = [
+    bus.bus_number,
     bus.bus_name,
     bus.source,
     bus.destination,
@@ -71,7 +72,8 @@ async function updateBus (bus) {
     bus.agent_seat_fare,
     bus.agent_sleeper_fare,
     bus.amenities,
-    bus.id]
+    bus.id
+  ]
 
   console.log(query)
   return await pool.query(query, values)
