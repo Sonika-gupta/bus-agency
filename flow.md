@@ -2,37 +2,42 @@
 
 > APP
 
-- App Bar
-
-  - Search bar
-  - Add Bus Button
-  - User Details
-
 - SideBar
 
-  - Advanced Search [with filters]
+  - Company Logo
+  - Company Name
+
+  - Dashboard
   - Users
   - Buses
+  - Advanced Search [with filters]
   - Manage Bookings
+  - Settings
 
-- Users
+  - User Profile
+  - Logout
 
-  - User Cards
+- Content
 
-- Buses
-  - Bus Cards (expandable)
-    - Bus Number
-    - Bus Name
-    - Route
-    - Source
-    - Departure time
-    - Time
-    - Destination
-    - Arrival time
-    - price per seat
-  - Action Panel [depending on user level]
-    - Edit Button
-    - Delete button
+  - Users
+
+    - Add User Button
+    - User Cards
+
+  - Buses
+    - Bus Cards (expandable)
+      - Bus Number
+      - Bus Name
+      - Route
+      - Source
+      - Departure time
+      - Time
+      - Destination
+      - Arrival time
+      - price per seat
+    - Action Panel [depending on user level]
+      - Edit Button
+      - Delete button
 
 > Bus Details
 

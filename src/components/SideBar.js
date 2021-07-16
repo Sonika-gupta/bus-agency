@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, NavLink as Link } from 'react-router-dom'
 import {
   makeStyles,
   Divider,
@@ -7,85 +8,82 @@ import {
   ListItemText,
   ListItemIcon
 } from '@material-ui/core'
-import GroupIcon from '@material-ui/icons/Group'
-import DirectionsBusIcon from '@material-ui/icons/DirectionsBus'
-import SettingsIcon from '@material-ui/icons/Settings'
-import clsx from 'clsx'
-const drawerWidth = 240
+import { Group, DirectionsBus, Settings } from '@material-ui/icons'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline'
 
+const theme = createMuiTheme({
+  palette: {
+    // type: 'dark'
+  }
+})
 const useStyles = makeStyles(theme => ({
-  toolbar: {
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar
+  drawerPaper: {
+    width: 240,
+    paddingTop: 60
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    paddingTop: '60px'
+  text: {
+    textTransform: 'capitalize'
   },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1
-    }
+  selected: {
+    all: 'inherit',
+    backgroundColor: theme.palette.action.focus
   }
 }))
-export default function SideBar ({ open, toggleDrawer }) {
+
+const mainMenu = [
+  {
+    title: 'users',
+    icon: <Group />
+  },
+  {
+    title: 'buses',
+    icon: <DirectionsBus />
+  }
+]
+
+const userMenu = [
+  {
+    title: 'settings',
+    icon: <Settings />
+  }
+]
+
+const partitions = [mainMenu, userMenu]
+export default function SideBar () {
   const classes = useStyles()
   return (
-    <Drawer
-      variant='permanent'
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open
-        })
-      }}
-      onMouseOver={toggleDrawer}
-      onMouseOut={toggleDrawer}
-    >
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        <ListItem button key='Users'>
-          <ListItemIcon>
-            <GroupIcon></GroupIcon>
-          </ListItemIcon>
-          <ListItemText primary='Users' />
-        </ListItem>
-        <ListItem button key='Buses'>
-          <ListItemIcon>
-            <DirectionsBusIcon></DirectionsBusIcon>
-          </ListItemIcon>
-          <ListItemText primary='Buses' />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button key='Settings'>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary='Settings' />
-        </ListItem>
-      </List>
-    </Drawer>
+    <ThemeProvider theme={theme}>
+      <ScopedCssBaseline>
+        <Drawer variant='permanent' classes={{ paper: classes.drawerPaper }}>
+          <Divider />
+          <Router>
+            {partitions.map((menu, i) => (
+              <div key={i}>
+                <List>
+                  {menu.map(({ title, icon }) => (
+                    <Link
+                      to={`/${title}`}
+                      activeClassName={classes.selected}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      key={title}
+                    >
+                      <ListItem button>
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        <ListItemText
+                          primary={title}
+                          className={classes.text}
+                        />
+                      </ListItem>
+                    </Link>
+                  ))}
+                </List>
+                <Divider />
+              </div>
+            ))}
+          </Router>
+        </Drawer>
+      </ScopedCssBaseline>
+    </ThemeProvider>
   )
 }

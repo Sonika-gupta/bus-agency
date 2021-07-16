@@ -6,6 +6,7 @@ import {
   Typography
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
+import CompanyLogo from './CompanyLogo'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -33,9 +34,7 @@ export default function TitleBar ({ toggleDrawer }) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h6' noWrap>
-          Bus Agency
-        </Typography>
+        <CompanyLogo />
       </Toolbar>
     </AppBar>
   )

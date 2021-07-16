@@ -1,43 +1,23 @@
-// import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import './App.css'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import TitleBar from './components/TitleBar'
 import SideBar from './components/SideBar'
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { useState } from 'react'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex'
-  },
-  hide: {
-    display: 'none'
-  },
-  toolbar: {
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
-  }
-}))
+import BusList from './components/BusList'
+import './App.css'
 
 export default function App () {
-  const classes = useStyles()
-  const [open, setOpen] = useState(false)
-
-  const handleDrawerToggle = () => {
-    setOpen(!open)
-  }
-
   return (
-    <div className={classes.root}>
-      <TitleBar toggleDrawer={handleDrawerToggle} />
-      <SideBar open={open} toggleDrawer={handleDrawerToggle} />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-      </main>
+    <div className='App'>
+      <TitleBar />
+      <div className='main'>
+        <SideBar />
+        <Router>
+          <Switch>
+            <Route path='/buses'>
+              <BusList />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     </div>
   )
 }
