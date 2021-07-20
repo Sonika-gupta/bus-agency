@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Menu from './Menu.js'
 import Buses from './Buses'
-import CompanyLogo from './CompanyLogo.js'
+// import CompanyLogo from './CompanyLogo.js'
 // import Users from './Users'
 
 const drawerWidth = 240
@@ -23,6 +23,13 @@ const drawerWidth = 240
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex'
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
   },
   menuButton: {
     ...theme.mixins.toolbar
@@ -51,6 +58,8 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     height: '100vh',
+    width: '80vw',
+    margin: 20,
     overflow: 'auto'
   },
   /* container: {

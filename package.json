@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "react": "^17.0.2",
@@ -12,8 +13,11 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
   "scripts": {
-    "start": "node server/index.js & react-scripts start",
+    "start": "nodemon server/index.js & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
