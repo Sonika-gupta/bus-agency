@@ -2,33 +2,33 @@ const defaultBus = require('../defaultBus')
 const { getPostgresValues } = require('../utils')
 const poolQuery = require('./poolQuery')
 
-async function getAllBuses () {
+function getAllBuses () {
   // TODO: Add limit with offset and pages
   const query = 'SELECT * FROM buses ORDER BY last_modified'
-  return await poolQuery(query)
+  return poolQuery(query)
 }
 
-async function searchBuses (filters) {
+function searchBuses (filters) {
   const query = 'SELECT * FROM buses WHERE source = $1'
   /* Object.entries(filters).forEach(([key, value]) => {
     query += `${key} = ${value}`
   }) */
-  return await pool.query(query, [filters.source])
+  return pool.query(query, [filters.source])
 }
 
-async function createBus (object) {
+function createBus (object) {
   const props = Object.keys(defaultBus).join(',')
   const values = getPostgresValues(defaultBus, object).join(',')
   const query = `INSERT INTO buses (${props}) VALUES (${values}) RETURNING *`
   console.log(props, values)
-  return await poolQuery(query)
+  return poolQuery(query)
 }
 
-async function deleteBus (id) {
-  const query = 'DELETE FROM buses WHERE id = $1'
-  return await poolQuery(query, [id])
+function deleteBus (id) {
+  const query = 'DELETE FROM buses WHERE id = $1 RETURNING *'
+  return poolQuery(query, [id])
 }
-async function updateBus (bus) {
+function updateBus (bus) {
   const query = `UPDATE buses
     SET bus_number = $1,
     bus_name = $2,
@@ -61,9 +61,7 @@ async function updateBus (bus) {
     bus.amenities,
     bus.id
   ]
-
-  console.log(query)
-  return await pool.query(query, values)
+  return poolQuery(query, values)
 }
 module.exports = {
   getAllBuses,
