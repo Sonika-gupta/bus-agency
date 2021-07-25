@@ -65,7 +65,9 @@ export default function Menu () {
                 key={title}
               >
                 <ListItem button>
-                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemIcon style={{ color: 'inherit', opacity: 0.8 }}>
+                    {icon}
+                  </ListItemIcon>
                   <ListItemText
                     primary={title}
                     style={{ textTransform: 'capitalize' }}

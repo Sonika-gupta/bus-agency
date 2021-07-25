@@ -101,7 +101,7 @@ export default function Dashboard () {
         >
           {open ? (
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={handleDrawerClose}>
+              <IconButton onClick={handleDrawerClose} color='inherit'>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
