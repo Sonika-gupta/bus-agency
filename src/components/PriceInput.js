@@ -8,7 +8,8 @@ export default function PriceInput ({ label, name, value, onChange }) {
       name={name}
       value={value}
       InputProps={{
-        startAdornment: <InputAdornment position='start'>₹</InputAdornment>
+        startAdornment: <InputAdornment position='start'>₹</InputAdornment>,
+        endAdornment: <InputAdornment position='end'>/-</InputAdornment>
       }}
       fullWidth
     />

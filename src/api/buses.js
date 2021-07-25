@@ -1,9 +1,8 @@
 import fetch from './fetchData'
 
-const route = '/buses'
+const route = '/buses/'
 async function getBuses () {
-  const res = await window.fetch(route)
-  return await res.json()
+  return fetch(route)
 }
 
 async function searchBuses (filters) {

@@ -1,17 +1,17 @@
 const initBus = {
-  number: '',
-  name: '',
+  bus_number: '',
+  bus_name: '',
   source: '',
   destination: '',
-  departure: '',
-  arrival: '',
-  days: [],
+  depart_time: '',
+  arrival_time: '',
+  running_days: [],
   amenities: [],
-  seat_fare: 0,
-  sleeper_fare: 0,
-  agent_seat_fare: 0,
-  agent_sleeper_fare: 0,
-  type: 'volvo',
+  seat_fare: '',
+  sleeper_fare: '',
+  agent_seat_fare: '',
+  agent_sleeper_fare: '',
+  bus_type: 'volvo',
   chart: '35-seater'
 }
 

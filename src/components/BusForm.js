@@ -51,19 +51,20 @@ export default function BusForm ({ editBus, handleSubmit }) {
     setBus({ [e.target.name]: e.target.value })
   }
 
-  function handleToggleChange (e, newValues) {
-    console.log(e.target.value, newValues)
+  function handleToggleChange (e, newValue) {
+    e.stopPropagation()
+    console.log(e.target.value, newValue)
     if (e.target.name === 'amenities') {
       setBus({
-        amenities: newValues
+        amenities: newValue
           ? [...bus.amenities, e.target.value]
           : bus.amenities.filter(item => item !== e.target.value)
       })
-    } else setBus({ running_days: newValues })
+    } else setBus({ running_days: newValue })
   }
 
   useEffect(() => {
-    setBus({ days: allDays ? days : [] })
+    setBus({ running_days: allDays ? days : [] })
   }, [allDays])
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={5} sm={3}>
           <TextField
             required
-            name='number'
+            name='bus_number'
             label='Bus Number'
             value={bus.bus_number}
             fullWidth
@@ -89,7 +90,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={12} sm={9}>
           <TextField
             required
-            name='name'
+            name='bus_name'
             label='Bus Name'
             value={bus.bus_name}
             fullWidth
@@ -108,7 +109,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={4} sm={2}>
           <TextField
             required
-            name='departure'
+            name='depart_time'
             label='Depart Time'
             type='time'
             InputLabelProps={{ shrink: true }}
@@ -128,7 +129,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={4} sm={2}>
           <TextField
             required
-            name='arrival'
+            name='arrival_time'
             label='Arrival Time'
             type='time'
             value={bus.arrival_time}
@@ -174,7 +175,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
             select
             onChange={handleChange}
             label='Type'
-            name='type'
+            name='bus_type'
             value={bus.bus_type}
             fullWidth
           >
@@ -262,7 +263,6 @@ export default function BusForm ({ editBus, handleSubmit }) {
                 classes={{ label: classes.labelBold }}
               />
               {amenities.map((value, i) => {
-                // console.log(value, bus.amenities.includes(value))
                 return (
                   <FormControlLabel
                     control={

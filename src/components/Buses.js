@@ -5,9 +5,9 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
-  DialogTitle
+  DialogTitle,
+  makeStyles
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { busApi as api } from '../api'
 import List from './List'
 import BusForm from './BusForm'
@@ -66,27 +66,67 @@ const columns = [
     valueGetter: value => `₹ ${value}`
   }
 ]
+// TODO: Replace window.alert with Notification
 
 export default function Buses () {
   const [buses, setBuses] = useState([])
+  const [bus, setBus] = useState({})
   const [open, setOpen] = useState(false)
   const [action, setAction] = useState('add')
   const classes = useStyles()
 
-  async function handleSubmit (e, bus) {
+  function handleSubmit (e, bus) {
     e.preventDefault()
+    bus.id ? editBus(bus) : newBus(bus)
+  }
+
+  function handleClose () {
+    setOpen(false)
+    setBus({})
+  }
+
+  function handleOnEdit (e, bus) {
+    setAction('edit')
+    setBus(bus)
+    setOpen(true)
+  }
+
+  async function editBus (bus) {
     try {
-      const newBus = await api.addBus(bus)
-      setBuses([...buses, newBus])
-      window.alert(`Bus Added with id ${newBus.id}`)
-      setOpen(false)
-      console.log(e.target, newBus)
+      const updatedBus = await api.updateBus(bus)
+      setBuses(buses.map(bus => (bus.id === updatedBus.id ? updatedBus : bus)))
+
+      handleClose()
+      window.alert(`Bus ${updatedBus.bus_name} Updated!`)
     } catch (err) {
-      console.log(JSON.stringify(err))
       window.alert(JSON.stringify(err).message)
     }
   }
-  console.log(buses)
+
+  async function newBus (bus) {
+    try {
+      const addedBus = await api.addBus(bus)
+      setBuses([...buses, addedBus])
+      window.alert(`Bus ${addedBus.bus_name} Added! `)
+      handleClose()
+    } catch (err) {
+      window.alert(JSON.stringify(err).message)
+    }
+  }
+
+  async function handleDelete (e, bus) {
+    try {
+      const consent = window.confirm(`Delete Bus ${bus.bus_name}`)
+      if (consent) {
+        const deletedBus = await api.deleteBus(bus)
+        setBuses(buses.filter(bus => bus.id !== deletedBus.id))
+        window.alert(`Bus ${deletedBus.bus_name} Deleted!`)
+      }
+    } catch (err) {
+      window.alert(JSON.stringify(err).message)
+    }
+  }
+
   useEffect(() => {
     ;(async () => {
       setBuses(await api.getBuses())
@@ -108,20 +148,25 @@ export default function Buses () {
           Add Bus
         </Button>
       </Box>
-      <List rows={buses} columns={columns} />
+      <List
+        rows={buses}
+        columns={columns}
+        onEdit={handleOnEdit}
+        onDelete={handleDelete}
+      />
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
         fullWidth
         maxWidth='md'
         classes={{ paper: classes.form }}
       >
         <DialogTitle>{action.toUpperCase()} BUS</DialogTitle>
         <DialogContent className={classes.dialogContent}>
-          <BusForm handleSubmit={handleSubmit} />
+          <BusForm editBus={bus} handleSubmit={handleSubmit} />
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
-          <Button variant='contained' onClick={() => setOpen(false)}>
+          <Button variant='contained' onClick={handleClose}>
             Cancel
           </Button>
           <Button
