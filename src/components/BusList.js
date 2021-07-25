@@ -6,9 +6,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
-  Card,
-  Container
+  Paper
 } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -73,12 +71,14 @@ export default function BusList ({ buses }) {
   const classes = useStyles()
   return (
     // <BusCard key={bus.bus_number} bus={bus}></BusCard>
-    <TableContainer style={{ width: '100%', margin: 'auto' }}>
+    <TableContainer component={Paper} style={{ width: '100%', margin: 'auto' }}>
       <Table className={classes.table} aria-label='list of buses'>
-        <TableHead component={Paper}>
+        <TableHead>
           <TableRow>
             {columns.map(column => (
-              <TableCell align={column.align}>{column.title}</TableCell>
+              <TableCell key={column.key} align={column.align}>
+                {column.title}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -89,7 +89,7 @@ export default function BusList ({ buses }) {
                 <TableCell
                   className={classes.tableCell}
                   align={column.align}
-                  padding='default'
+                  key={column.key}
                 >
                   {column.valueGetter
                     ? column.valueGetter(bus[column.key])

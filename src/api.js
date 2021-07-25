@@ -8,7 +8,7 @@ async function fetch (route, data, method = 'GET') {
     }
   })
   const value = await res.json()
-
+  console.log('value: ', value)
   if (value.error) throw Error(value)
 
   return value
@@ -28,7 +28,7 @@ async function searchBuses (filters) {
   console.log(res)
 }
 
-function newBus (bus) {
+function addBus (bus) {
   return fetch('buses', bus, 'POST')
 }
 
@@ -40,4 +40,4 @@ function updateBus (bus) {
   return fetch('buses', bus, 'PUT')
 }
 
-export { getBuses, searchBuses, newBus, deleteBus, updateBus }
+export { getBuses, searchBuses, addBus, deleteBus, updateBus }

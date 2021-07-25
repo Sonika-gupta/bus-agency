@@ -11,7 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
-import { initBus, days, amenities } from './possibleValues'
+import { initBus, days, amenities } from '../values'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,19 +34,15 @@ const useStyles = makeStyles(theme => ({
   checkAll: { width: '100%' }
 }))
 
-function updateBus (bus, newValue) {
-  return {
-    ...bus,
-    ...newValue
-  }
-}
-
 export default function BusForm ({ handleSubmit }) {
   const classes = useStyles()
 
   const [allDays, setAllDays] = useState(false)
   const [allAmenities, setAllAmenities] = useState(false)
-  const [bus, setBus] = useReducer(updateBus, initBus)
+  const [bus, setBus] = useReducer(
+    (bus, newValue) => ({ ...bus, ...newValue }),
+    initBus
+  )
 
   function handleChange (e) {
     console.log(e.target.name, e.target.value)
@@ -63,9 +59,6 @@ export default function BusForm ({ handleSubmit }) {
       })
     } else setBus({ days: newValues })
   }
-  useEffect(() => {
-    console.log(bus)
-  }, [bus])
 
   useEffect(() => {
     setBus({ days: allDays ? days : [] })

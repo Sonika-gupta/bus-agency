@@ -47,8 +47,8 @@ export default function Buses () {
       setOpen(false)
       console.log(e.target, newBus)
     } catch (err) {
-      console.log(JSON.stringify(err.message))
-      window.alert('Adding Bus Failed', err)
+      console.log(JSON.stringify(err))
+      window.alert(JSON.stringify(err).message)
     }
   }
   console.log(buses)

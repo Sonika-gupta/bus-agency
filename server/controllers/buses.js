@@ -19,7 +19,7 @@ async function filterBuses (req, res) {
 async function createBus (req, res) {
   const [error, result] = await db.createBus(req.body)
   if (result) res.send(result)
-  else res.send({ error: true, message: 'Create Bus Failed' })
+  else res.send({ error, message: 'Create Bus Failed' })
 }
 
 async function deleteBus (req, res) {
