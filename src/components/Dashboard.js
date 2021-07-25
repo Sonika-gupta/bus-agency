@@ -79,12 +79,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard () {
   const classes = useStyles()
-  const [open, setOpen] = useState(true)
+  const [showSidebar, setShowSidebar] = useState(true)
   const handleDrawerOpen = () => {
-    setOpen(true)
+    setShowSidebar(true)
   }
   const handleDrawerClose = () => {
-    setOpen(false)
+    setShowSidebar(false)
   }
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
@@ -95,11 +95,13 @@ export default function Dashboard () {
         <Drawer
           variant='permanent'
           classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+            paper: clsx(
+              classes.drawerPaper,
+              !showSidebar && classes.drawerPaperClose
+            )
           }}
-          open={open}
         >
-          {open ? (
+          {showSidebar ? (
             <div className={classes.toolbarIcon}>
               <IconButton onClick={handleDrawerClose} color='inherit'>
                 <ChevronLeftIcon />
@@ -109,7 +111,7 @@ export default function Dashboard () {
             <IconButton
               edge='start'
               color='inherit'
-              aria-label='open drawer'
+              aria-label='showSidebar drawer'
               onClick={handleDrawerOpen}
               className={classes.menuButton}
             >
@@ -117,7 +119,7 @@ export default function Dashboard () {
             </IconButton>
           )}
           <Divider />
-          <Menu />
+          <Menu open={showSidebar} />
         </Drawer>
         <main className={classes.content}>
           {/* <CompanyLogo /> */}

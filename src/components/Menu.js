@@ -12,11 +12,11 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Tooltip,
   makeStyles
 } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => {
-  console.log(theme)
   return {
     selected: {
       backgroundColor: 'rgba(255, 255, 255, 0.75) !important'
@@ -50,7 +50,7 @@ const userMenu = [
 ]
 
 const partitions = [mainMenu, userMenu]
-export default function Menu () {
+export default function Menu ({ open }) {
   const classes = useStyles()
   return (
     <div>
@@ -65,9 +65,14 @@ export default function Menu () {
                 key={title}
               >
                 <ListItem button>
-                  <ListItemIcon style={{ color: 'inherit', opacity: 0.8 }}>
-                    {icon}
-                  </ListItemIcon>
+                  <Tooltip
+                    title={open ? '' : title.toUpperCase()}
+                    placement='right'
+                  >
+                    <ListItemIcon style={{ color: 'inherit', opacity: 0.8 }}>
+                      {icon}
+                    </ListItemIcon>
+                  </Tooltip>
                   <ListItemText
                     primary={title}
                     style={{ textTransform: 'capitalize' }}
