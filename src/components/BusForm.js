@@ -11,6 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
+import PriceInput from './PriceInput'
 import { initBus, days, amenities } from '../values'
 
 const useStyles = makeStyles(theme => ({
@@ -34,16 +35,17 @@ const useStyles = makeStyles(theme => ({
   checkAll: { width: '100%' }
 }))
 
-export default function BusForm ({ handleSubmit }) {
+export default function BusForm ({ editBus, handleSubmit }) {
   const classes = useStyles()
 
   const [allDays, setAllDays] = useState(false)
   const [allAmenities, setAllAmenities] = useState(false)
   const [bus, setBus] = useReducer(
     (bus, newValue) => ({ ...bus, ...newValue }),
-    initBus
+    editBus?.id ? editBus : initBus
   )
 
+  console.log('Bus', bus)
   function handleChange (e) {
     console.log(e.target.name, e.target.value)
     setBus({ [e.target.name]: e.target.value })
@@ -57,7 +59,7 @@ export default function BusForm ({ handleSubmit }) {
           ? [...bus.amenities, e.target.value]
           : bus.amenities.filter(item => item !== e.target.value)
       })
-    } else setBus({ days: newValues })
+    } else setBus({ running_days: newValues })
   }
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function BusForm ({ handleSubmit }) {
             required
             name='number'
             label='Bus Number'
-            value={bus.number}
+            value={bus.bus_number}
             fullWidth
           />
         </Grid>
@@ -89,10 +91,11 @@ export default function BusForm ({ handleSubmit }) {
             required
             name='name'
             label='Bus Name'
-            value={bus.name}
+            value={bus.bus_name}
             fullWidth
           />
         </Grid>
+        {/* ROUTE DETAILS */}
         <Grid item xs={8} sm={4}>
           <TextField
             required
@@ -109,7 +112,7 @@ export default function BusForm ({ handleSubmit }) {
             label='Depart Time'
             type='time'
             InputLabelProps={{ shrink: true }}
-            value={bus.departure}
+            value={bus.depart_time}
             fullWidth
           />
         </Grid>
@@ -128,18 +131,51 @@ export default function BusForm ({ handleSubmit }) {
             name='arrival'
             label='Arrival Time'
             type='time'
-            value={bus.arrival}
+            value={bus.arrival_time}
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
         </Grid>
-        <Grid item xs>
+        {/* FARE */}
+        <Grid item xs={3}>
+          <PriceInput
+            onChange={handleChange}
+            label='Seat Fare'
+            name='seat_fare'
+            value={bus.seat_fare}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <PriceInput
+            onChange={handleChange}
+            label='Sleeper Fare'
+            name='sleeper_fare'
+            value={bus.sleeper_fare}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <PriceInput
+            onChange={handleChange}
+            label='Agent Seat Fare'
+            name='agent_seat_fare'
+            value={bus.agent_seat_fare}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <PriceInput
+            onChange={handleChange}
+            label='Agent Sleeper Fare'
+            name='agent_sleeper_fare'
+            value={bus.agent_sleeper_fare}
+          />
+        </Grid>
+        <Grid item xs={4}>
           <TextField
             select
             onChange={handleChange}
             label='Type'
             name='type'
-            value={bus.type}
+            value={bus.bus_type}
             fullWidth
           >
             <MenuItem value='non-AC seater'>Non-AC Seater</MenuItem>
@@ -164,6 +200,7 @@ export default function BusForm ({ handleSubmit }) {
             <MenuItem value='45-seater'>45-Seater</MenuItem>
           </TextField>
         </Grid>
+        {/* RUNNING DAYS */}
         <Grid item xs>
           <FormControl classes={{ root: classes.root }}>
             <InputLabel
@@ -174,7 +211,7 @@ export default function BusForm ({ handleSubmit }) {
             </InputLabel>
             <ToggleButton
               value='all'
-              selected={allDays && bus.days.length === days.length}
+              selected={allDays && bus.running_days.length === days.length}
               onChange={() => setAllDays(!allDays)}
               style={{ marginRight: 3 }}
               classes={{ selected: classes.button }}
@@ -182,8 +219,8 @@ export default function BusForm ({ handleSubmit }) {
               All
             </ToggleButton>
             <ToggleButtonGroup
-              id='days'
-              value={bus.days}
+              id='running_days'
+              value={bus.running_days}
               onChange={handleToggleChange}
             >
               {days.map((day, i) => (
@@ -194,6 +231,7 @@ export default function BusForm ({ handleSubmit }) {
             </ToggleButtonGroup>
           </FormControl>
         </Grid>
+        {/* AMENITIES */}
         <Grid item xs={12}>
           <FormControl classes={{ root: classes.root }}>
             <InputLabel
@@ -223,21 +261,24 @@ export default function BusForm ({ handleSubmit }) {
                 className={classes.checkAll}
                 classes={{ label: classes.labelBold }}
               />
-              {amenities.map((value, i) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={bus.amenities.includes(value)}
-                      onChange={handleToggleChange}
-                      value={value}
-                      name='amenities'
-                    />
-                  }
-                  label={value}
-                  classes={{ label: classes.label }}
-                  key={i}
-                />
-              ))}
+              {amenities.map((value, i) => {
+                // console.log(value, bus.amenities.includes(value))
+                return (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={bus.amenities.includes(value)}
+                        onChange={handleToggleChange}
+                        value={value}
+                        name='amenities'
+                      />
+                    }
+                    label={value}
+                    classes={{ label: classes.label }}
+                    key={i}
+                  />
+                )
+              })}
             </FormGroup>
           </FormControl>
         </Grid>
