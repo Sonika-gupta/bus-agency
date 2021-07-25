@@ -40,7 +40,7 @@ const columns = [
 
 export default function Users () {
   const [users, setUsers] = useState([])
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [action, setAction] = useState('add')
   const classes = useStyles()
 

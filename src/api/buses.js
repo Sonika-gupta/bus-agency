@@ -1,4 +1,4 @@
-import { fetchData as fetch } from './index'
+import fetch from './fetchData'
 
 const route = '/buses'
 async function getBuses () {

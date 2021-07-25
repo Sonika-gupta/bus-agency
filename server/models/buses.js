@@ -1,19 +1,6 @@
 const defaultBus = require('../defaultBus')
 const { getPostgresValues } = require('../utils')
-const { Pool } = require('pg')
-const config = require('../config')
-
-const pool = new Pool(config.dbConnectionObj)
-pool.connect()
-
-async function poolQuery (query, values = []) {
-  try {
-    const result = await pool.query(query, values)
-    return [null, result.rows]
-  } catch (err) {
-    return [err, null]
-  }
-}
+const poolQuery = require('./poolQuery')
 
 async function getAllBuses () {
   // TODO: Add limit with offset and pages
