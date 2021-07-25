@@ -15,8 +15,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Menu from './Menu.js'
 import Buses from './Buses'
+import Users from './Users'
 // import CompanyLogo from './CompanyLogo.js'
-// import Users from './Users'
 
 const drawerWidth = 240
 
@@ -126,7 +126,9 @@ export default function Dashboard () {
             <Route path='/buses'>
               <Buses />
             </Route>
-            <Route path='/users'>{/* <Users /> */}</Route>
+            <Route path='/users'>
+              <Users />
+            </Route>
             <Route path='/bookings'></Route>
             <Route path='/settings'></Route>
             <Route path='/'>

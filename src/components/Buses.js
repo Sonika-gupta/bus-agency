@@ -8,10 +8,9 @@ import {
   DialogTitle
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { getBuses } from '../api'
-import BusList from './BusList'
+import { busApi as api } from '../api'
+import List from './List'
 import BusForm from './BusForm'
-import { addBus } from '../api'
 
 const useStyles = makeStyles(theme => ({
   actionPanel: {
@@ -32,6 +31,42 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const columns = [
+  { key: 'bus_number', title: '#' },
+  { key: 'bus_name', title: 'Name' },
+  { key: 'source', title: 'Source' },
+  { key: 'destination', title: 'Destination' },
+  { key: 'depart_time', title: 'Departure' },
+  { key: 'arrival_time', title: 'Arrival' },
+  { key: 'chart', title: 'Seater' },
+  // { key: 'running_days', title: 'Days' },
+  // { key: 'amenities', title: 'Amenities' },
+  {
+    key: 'seat_fare',
+    title: 'Seat',
+    valueGetter: value => `₹ ${value}`,
+    align: 'right'
+  },
+  {
+    key: 'sleeper_fare',
+    title: 'Sleeper',
+    align: 'right',
+    valueGetter: value => `₹ ${value}`
+  },
+  {
+    key: 'agent_seat_fare',
+    title: 'Agent Seat',
+    align: 'right',
+    valueGetter: value => `₹ ${value}`
+  },
+  {
+    key: 'agent_sleeper_fare',
+    title: 'Agent Sleeper',
+    align: 'right',
+    valueGetter: value => `₹ ${value}`
+  }
+]
+
 export default function Buses () {
   const [buses, setBuses] = useState([])
   const [open, setOpen] = useState(true)
@@ -41,7 +76,7 @@ export default function Buses () {
   async function handleSubmit (e, bus) {
     e.preventDefault()
     try {
-      const newBus = await addBus(bus)
+      const newBus = await api.addBus(bus)
       setBuses([...buses, newBus])
       window.alert(`Bus Added with id ${newBus.id}`)
       setOpen(false)
@@ -54,7 +89,7 @@ export default function Buses () {
   console.log(buses)
   useEffect(() => {
     ;(async () => {
-      setBuses(await getBuses())
+      setBuses(await api.getBuses())
     })()
     return () => setBuses([])
   }, [])
@@ -73,7 +108,7 @@ export default function Buses () {
           Add Bus
         </Button>
       </Box>
-      <BusList buses={buses} />
+      <List rows={buses} columns={columns} />
       <Dialog
         open={open}
         onClose={() => setOpen(false)}

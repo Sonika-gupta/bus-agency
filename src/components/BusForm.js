@@ -186,8 +186,8 @@ export default function BusForm ({ handleSubmit }) {
               value={bus.days}
               onChange={handleToggleChange}
             >
-              {days.map(day => (
-                <ToggleButton value={day} color='secondary'>
+              {days.map((day, i) => (
+                <ToggleButton value={day} color='secondary' key={i}>
                   {day[0]}
                 </ToggleButton>
               ))}
@@ -223,7 +223,7 @@ export default function BusForm ({ handleSubmit }) {
                 className={classes.checkAll}
                 classes={{ label: classes.labelBold }}
               />
-              {amenities.map(value => (
+              {amenities.map((value, i) => (
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -235,6 +235,7 @@ export default function BusForm ({ handleSubmit }) {
                   }
                   label={value}
                   classes={{ label: classes.label }}
+                  key={i}
                 />
               ))}
             </FormGroup>
