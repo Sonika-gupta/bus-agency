@@ -53,26 +53,14 @@ seat_fare INT NOT NULL,
 sleeper_fare INT NOT NULL,
 agent_seat_fare INT NOT NULL,
 agent_sleeper_fare INT NOT NULL,
-
 chart bus_chart_type,
-running_days days_type,
-ac boolean,
-seater boolean,
-sleeper boolean,
-volvo boolean,
-boarding_points JSON,
-dropping_points JSON,
-running_days JSON,
-blanket boolean,
-water_bottle boolean,
-snacks boolean,
-charging_points boolean,
-movie boolean,
-track_my_bus boolean,
-emergency_contact boolean,
-toilet boolean,
-reschedulable boolean,
-live_tracking boolean);
+running_days bit(7),
+bus_type bus_type,
+boarding_points json[],
+dropping_points json[],
+amenities character varying(30)[],
+last_modified timestamp without time zone DEFAULT now()
+)
 
 CREATE TABLE seats (
 bus_id INT NOT NULL REFERENCES buses(id),

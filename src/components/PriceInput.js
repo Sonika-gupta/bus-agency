@@ -2,6 +2,7 @@ import { TextField, InputAdornment } from '@material-ui/core'
 export default function PriceInput ({ label, name, value, onChange }) {
   return (
     <TextField
+      required
       type='number'
       onChange={onChange}
       label={label}
