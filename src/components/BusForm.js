@@ -38,8 +38,6 @@ const useStyles = makeStyles(theme => ({
 export default function BusForm ({ editBus, handleSubmit }) {
   const classes = useStyles()
 
-  const [allDays, setAllDays] = useState(false)
-  const [allAmenities, setAllAmenities] = useState(false)
   const [bus, setBus] = useReducer(
     (bus, newValue) => ({ ...bus, ...newValue }),
     editBus?.id ? editBus : initBus
@@ -63,13 +61,17 @@ export default function BusForm ({ editBus, handleSubmit }) {
     } else setBus({ running_days: newValue })
   }
 
-  useEffect(() => {
-    setBus({ running_days: allDays ? days : [] })
-  }, [allDays])
+  function checkAllDays () {
+    return bus.running_days.length === days.length
+  }
 
-  useEffect(() => {
-    setBus({ amenities: allAmenities ? amenities : [] })
-  }, [allAmenities])
+  function handleToggleAll (e, newValue) {
+    e.stopPropagation()
+    console.log(e.target.selected, newValue)
+    if (e.target.name === 'amenities') {
+      setBus({ amenities: newValue ? amenities : [] })
+    } else setBus({ running_days: checkAllDays() ? [] : days })
+  }
 
   return (
     <form
@@ -170,6 +172,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
             value={bus.agent_sleeper_fare}
           />
         </Grid>
+        {/* BUS DETAILS */}
         <Grid item xs={4}>
           <TextField
             select
@@ -212,8 +215,8 @@ export default function BusForm ({ editBus, handleSubmit }) {
             </InputLabel>
             <ToggleButton
               value='all'
-              selected={allDays && bus.running_days.length === days.length}
-              onChange={() => setAllDays(!allDays)}
+              selected={checkAllDays()}
+              onChange={handleToggleAll}
               style={{ marginRight: 3 }}
               classes={{ selected: classes.button }}
             >
@@ -249,11 +252,8 @@ export default function BusForm ({ editBus, handleSubmit }) {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={
-                      allAmenities && bus.amenities.length === amenities.length
-                    }
-                    value='all'
-                    onChange={() => setAllAmenities(!allAmenities)}
+                    checked={bus.amenities.length === amenities.length}
+                    onChange={handleToggleAll}
                     name='amenities'
                     color='primary'
                   />
