@@ -47,4 +47,18 @@ const amenities = [
   'live tracking'
 ]
 
-export { initBus, busType, busChartType, days, amenities }
+const initUser = {
+  type: 'customer',
+  fname: '',
+  lname: '',
+  username: '',
+  email: '',
+  password: '',
+  contact: '',
+  staus: 'active',
+  lastActive: ''
+}
+
+const userType = ['admin', 'agent', 'customer']
+
+export { initBus, busType, busChartType, days, amenities, initUser, userType }

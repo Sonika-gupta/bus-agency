@@ -69,7 +69,9 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
                   align={column.align}
                   key={column.key}
                 >
-                  {column.valueGetter
+                  {column.render
+                    ? column.render(row)
+                    : column.valueGetter
                     ? column.valueGetter(row[column.key])
                     : row[column.key]}
                 </TableCell>

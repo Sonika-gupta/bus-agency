@@ -9,7 +9,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import List from './List'
-// import UserForm from './UserForm'
+import UserForm from './UserForm'
 // import { userApi as api } from '../api'
 
 const useStyles = makeStyles(theme => ({
@@ -32,10 +32,21 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const columns = [
-  { key: 'username', title: 'Name' },
   { key: 'type', title: 'Type' },
+  { key: 'username', title: 'Username' },
+  {
+    key: 'name',
+    title: 'Full Name',
+    render: user => `${user.fname} ${user.lname}`
+  },
   { key: 'email', title: 'Email' },
-  { key: 'bookings', title: 'Total Bookings' }
+  {
+    key: 'status',
+    title: 'Status',
+    render: user =>
+      user.isActive ? 'Active' : `Last Active on ${user.lastActive}`
+  }
+  // { key: 'bookings', title: 'Total Bookings' }
 ]
 
 export default function Users () {
@@ -44,9 +55,9 @@ export default function Users () {
   const [action, setAction] = useState('add')
   const classes = useStyles()
 
-  /* async function handleSubmit (e, user) {
+  async function handleSubmit (e, user) {
     e.preventDefault()
-    try {
+    /* try {
       const newUser = await api.addUser(user)
       setUsers([...users, newUser])
       window.alert(`Bus Added with id ${newUser.id}`)
@@ -55,8 +66,10 @@ export default function Users () {
     } catch (err) {
       console.log(JSON.stringify(err))
       window.alert(JSON.stringify(err).message)
-    }
+    } */
+    console.log(user)
   }
+  /*
   console.log(users)
   useEffect(() => {
     ;(async () => {
@@ -84,24 +97,21 @@ export default function Users () {
         open={open}
         onClose={() => setOpen(false)}
         fullWidth
-        maxWidth='md'
         classes={{ paper: classes.form }}
       >
         <DialogTitle>{action.toUpperCase()} USER</DialogTitle>
         <DialogContent className={classes.dialogContent}>
-          {/* <UserForm handleSubmit={handleSubmit} /> */}
+          <UserForm handleSubmit={handleSubmit} />
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
-          <Button variant='contained' onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
           <Button
             variant='contained'
             color='primary'
             type='submit'
+            fullWidth
             form='userForm'
           >
-            Submit
+            Sign Up
           </Button>
         </DialogActions>
       </Dialog>
