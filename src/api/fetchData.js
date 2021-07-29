@@ -1,6 +1,6 @@
 export default async function fetchData (route, data, method = 'GET') {
   console.log('requesting', route, data, method)
-  const res = await window.fetch('/api' + route, {
+  const res = await window.fetch('api/' + route, {
     method,
     body: JSON.stringify(data),
     headers: {

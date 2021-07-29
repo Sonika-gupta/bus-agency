@@ -1,6 +1,6 @@
 import fetch from './fetchData'
 
-const route = '/buses/'
+const route = 'buses/'
 async function getBuses () {
   return fetch(route)
 }
