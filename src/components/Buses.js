@@ -32,35 +32,35 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const columns = [
-  { key: 'bus_number', title: '#' },
-  { key: 'bus_name', title: 'Name' },
+  { key: 'busNumber', title: '#' },
+  { key: 'busName', title: 'Name' },
   { key: 'source', title: 'Source' },
   { key: 'destination', title: 'Destination' },
-  { key: 'depart_time', title: 'Departure' },
-  { key: 'arrival_time', title: 'Arrival' },
+  { key: 'departTime', title: 'Departure' },
+  { key: 'arrivalTime', title: 'Arrival' },
   { key: 'chart', title: 'Seater' },
-  // { key: 'running_days', title: 'Days' },
+  // { key: 'runningDays', title: 'Days' },
   // { key: 'amenities', title: 'Amenities' },
   {
-    key: 'seat_fare',
+    key: 'seatFare',
     title: 'Seat',
     valueGetter: value => `₹ ${value}`,
     align: 'right'
   },
   {
-    key: 'sleeper_fare',
+    key: 'sleeperFare',
     title: 'Sleeper',
     align: 'right',
     valueGetter: value => `₹ ${value}`
   },
   {
-    key: 'agent_seat_fare',
+    key: 'agentSeatFare',
     title: 'Agent Seat',
     align: 'right',
     valueGetter: value => `₹ ${value}`
   },
   {
-    key: 'agent_sleeper_fare',
+    key: 'agentSleeperFare',
     title: 'Agent Sleeper',
     align: 'right',
     valueGetter: value => `₹ ${value}`
@@ -97,7 +97,7 @@ export default function Buses () {
       setBuses(buses.map(bus => (bus.id === updatedBus.id ? updatedBus : bus)))
 
       handleClose()
-      window.alert(`Bus ${updatedBus.bus_name} Updated!`)
+      window.alert(`Bus ${updatedBus.busName} Updated!`)
     } catch (err) {
       window.alert(JSON.stringify(err).message)
     }
@@ -107,7 +107,7 @@ export default function Buses () {
     try {
       const addedBus = await api.addBus(bus)
       setBuses([...buses, addedBus])
-      window.alert(`Bus ${addedBus.bus_name} Added! `)
+      window.alert(`Bus ${addedBus.busName} Added! `)
       handleClose()
     } catch (err) {
       window.alert(JSON.stringify(err).message)
@@ -116,11 +116,11 @@ export default function Buses () {
 
   async function handleDelete (e, bus) {
     try {
-      const consent = window.confirm(`Delete Bus ${bus.bus_name}`)
+      const consent = window.confirm(`Delete Bus ${bus.busName}`)
       if (consent) {
         const deletedBus = await api.deleteBus(bus)
         setBuses(buses.filter(bus => bus.id !== deletedBus.id))
-        window.alert(`Bus ${deletedBus.bus_name} Deleted!`)
+        window.alert(`Bus ${deletedBus.busName} Deleted!`)
       }
     } catch (err) {
       window.alert(JSON.stringify(err).message)

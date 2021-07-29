@@ -1,4 +1,4 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useReducer } from 'react'
 import {
   Checkbox,
   FormControl,
@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import PriceInput from './PriceInput'
-import { initBus, days, amenities } from '../values'
+import { initBus, busType, busChartType, days, amenities } from '../values'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,8 +42,8 @@ export default function BusForm ({ editBus, handleSubmit }) {
     (bus, newValue) => ({ ...bus, ...newValue }),
     editBus?.id ? editBus : initBus
   )
+  console.log('Bus Loaded')
 
-  console.log('Bus', bus)
   function handleChange (e) {
     console.log(e.target.name, e.target.value)
     setBus({ [e.target.name]: e.target.value })
@@ -58,11 +58,11 @@ export default function BusForm ({ editBus, handleSubmit }) {
           ? [...bus.amenities, e.target.value]
           : bus.amenities.filter(item => item !== e.target.value)
       })
-    } else setBus({ running_days: newValue })
+    } else setBus({ runningDays: newValue })
   }
 
   function checkAllDays () {
-    return bus.running_days.length === days.length
+    return bus.runningDays.length === days.length
   }
 
   function handleToggleAll (e, newValue) {
@@ -70,7 +70,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
     console.log(e.target.selected, newValue)
     if (e.target.name === 'amenities') {
       setBus({ amenities: newValue ? amenities : [] })
-    } else setBus({ running_days: checkAllDays() ? [] : days })
+    } else setBus({ runningDays: checkAllDays() ? [] : days })
   }
 
   return (
@@ -83,18 +83,18 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={5} sm={3}>
           <TextField
             required
-            name='bus_number'
+            name='busNumber'
             label='Bus Number'
-            value={bus.bus_number}
+            value={bus.busNumber}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={9}>
           <TextField
             required
-            name='bus_name'
+            name='busName'
             label='Bus Name'
-            value={bus.bus_name}
+            value={bus.busName}
             fullWidth
           />
         </Grid>
@@ -111,11 +111,11 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={4} sm={2}>
           <TextField
             required
-            name='depart_time'
+            name='departTime'
             label='Depart Time'
             type='time'
             InputLabelProps={{ shrink: true }}
-            value={bus.depart_time}
+            value={bus.departTime}
             fullWidth
           />
         </Grid>
@@ -131,10 +131,10 @@ export default function BusForm ({ editBus, handleSubmit }) {
         <Grid item xs={4} sm={2}>
           <TextField
             required
-            name='arrival_time'
+            name='arrivalTime'
             label='Arrival Time'
             type='time'
-            value={bus.arrival_time}
+            value={bus.arrivalTime}
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
@@ -144,32 +144,32 @@ export default function BusForm ({ editBus, handleSubmit }) {
           <PriceInput
             onChange={handleChange}
             label='Seat Fare'
-            name='seat_fare'
-            value={bus.seat_fare}
+            name='seatFare'
+            value={bus.seatFare}
           />
         </Grid>
         <Grid item xs={3}>
           <PriceInput
             onChange={handleChange}
             label='Sleeper Fare'
-            name='sleeper_fare'
-            value={bus.sleeper_fare}
+            name='sleeperFare'
+            value={bus.sleeperFare}
           />
         </Grid>
         <Grid item xs={3}>
           <PriceInput
             onChange={handleChange}
             label='Agent Seat Fare'
-            name='agent_seat_fare'
-            value={bus.agent_seat_fare}
+            name='agentSeatFare'
+            value={bus.agentSeatFare}
           />
         </Grid>
         <Grid item xs={3}>
           <PriceInput
             onChange={handleChange}
             label='Agent Sleeper Fare'
-            name='agent_sleeper_fare'
-            value={bus.agent_sleeper_fare}
+            name='agentSleeperFare'
+            value={bus.agentSleeperFare}
           />
         </Grid>
         {/* BUS DETAILS */}
@@ -178,16 +178,20 @@ export default function BusForm ({ editBus, handleSubmit }) {
             select
             onChange={handleChange}
             label='Type'
-            name='bus_type'
-            value={bus.bus_type}
+            name='busType'
+            value={bus.busType}
+            style={{ textTransform: 'capitalize' }}
             fullWidth
           >
-            <MenuItem value='non-AC seater'>Non-AC Seater</MenuItem>
-            <MenuItem value='non-AC seater sleeper'>
-              Non-AC Seater Sleeper
-            </MenuItem>
-            <MenuItem value='AC seater sleeper'>AC Seater Sleeper</MenuItem>
-            <MenuItem value='volvo'>Volvo</MenuItem>
+            {busType.map((type, i) => (
+              <MenuItem
+                key={i}
+                value={type}
+                style={{ textTransform: 'capitalize' }}
+              >
+                {type}
+              </MenuItem>
+            ))}
           </TextField>
         </Grid>
         <Grid item xs>
@@ -200,8 +204,11 @@ export default function BusForm ({ editBus, handleSubmit }) {
             value={bus.chart}
             fullWidth
           >
-            <MenuItem value='35-seater'>35-Seater</MenuItem>
-            <MenuItem value='45-seater'>45-Seater</MenuItem>
+            {busChartType.map((type, i) => (
+              <MenuItem value={type} key={i}>
+                {type}
+              </MenuItem>
+            ))}
           </TextField>
         </Grid>
         {/* RUNNING DAYS */}
@@ -223,8 +230,8 @@ export default function BusForm ({ editBus, handleSubmit }) {
               All
             </ToggleButton>
             <ToggleButtonGroup
-              id='running_days'
-              value={bus.running_days}
+              id='runningDays'
+              value={bus.runningDays}
               onChange={handleToggleChange}
             >
               {days.map((day, i) => (

@@ -1,19 +1,28 @@
 const initBus = {
-  bus_number: '',
-  bus_name: '',
+  busNumber: '',
+  busName: '',
   source: '',
   destination: '',
-  depart_time: '',
-  arrival_time: '',
-  running_days: [],
+  departTime: '',
+  arrivalTime: '',
+  runningDays: [],
   amenities: [],
-  seat_fare: '',
-  sleeper_fare: '',
-  agent_seat_fare: '',
-  agent_sleeper_fare: '',
-  bus_type: 'volvo',
+  seatFare: '',
+  sleeperFare: '',
+  agentSeatFare: '',
+  agentSleeperFare: '',
+  busType: 'volvo',
   chart: '35-seater'
 }
+
+const busChartType = ['35-seater', '45-seater']
+
+const busType = [
+  'volvo',
+  'AC seater sleeper',
+  'non-AC seater',
+  'non-AC seater sleeper'
+]
 
 const days = [
   'monday',
@@ -38,4 +47,4 @@ const amenities = [
   'live tracking'
 ]
 
-export { initBus, days, amenities }
+export { initBus, busType, busChartType, days, amenities }

@@ -34,8 +34,8 @@ export default function BusCard ({ bus }) {
         onClick={() => setExpand(!expand)}
       >
         <CardContent className={classes.leftDetails}>
-          <Typography variant='body2'>{bus.bus_number}</Typography>
-          <Typography variant='overline'>{bus.bus_name}</Typography>
+          <Typography variant='body2'>{bus.busNumber}</Typography>
+          <Typography variant='overline'>{bus.busName}</Typography>
         </CardContent>
         <CardContent className={classes.middle}>
           <Typography variant='h6'>{bus.source}</Typography>
@@ -43,7 +43,7 @@ export default function BusCard ({ bus }) {
           <Typography variant='h6'>{bus.destination}</Typography>
         </CardContent>
         <CardContent className={classes.rightDetails}>
-          <Typography variant='h5'>&#8377;{bus.seat_fare}/-</Typography>
+          <Typography variant='h5'>&#8377;{bus.seatFare}/-</Typography>
         </CardContent>
       </CardActionArea>
       <Collapse in={expand} timeout='auto' unmountOnExit>

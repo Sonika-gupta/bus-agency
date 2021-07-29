@@ -8,40 +8,60 @@ const days = [
   'sunday'
 ]
 
-const busProperties = [
-  'bus_number',
-  'bus_name',
-  'source',
-  'destination',
-  'depart_time',
-  'arrival_time',
-  'chart',
-  'running_days',
-  'amenities',
-  'seat_fare',
-  'sleeper_fare',
-  'agent_seat_fare',
-  'agent_sleeper_fare'
-]
+const busProperties = {
+  bus_number: 'busNumber',
+  bus_name: 'busName',
+  source: 'source',
+  destination: 'destination',
+  depart_time: 'departTime',
+  arrival_time: 'arrivalTime',
+  bus_type: 'busType',
+  chart: 'chart',
+  running_days: 'runningDays',
+  amenities: 'amenities',
+  seat_fare: 'seatFare',
+  sleeper_fare: 'sleeperFare',
+  agent_seat_fare: 'agentSeatFare',
+  agent_sleeper_fare: 'agentSleeperFare'
+}
+
 function daysToBitString (array) {
   const bitArray = days.map(day => (array.includes(day) ? 1 : 0))
   return bitArray.join('')
 }
 
 function bitStringToDays (string) {
-  const running_days = string.split('')
-  return days.filter((day, i) => +running_days[i])
+  const bits = string?.split('')
+  return bits ? days.filter((day, i) => +bits[i]) : []
 }
 
-function getValues (bus) {
-  if (!bus.running_days) bus.running_days = []
-  else bus.running_days = bitStringToDays(bus.running_days)
+function toViewBuses ([...buses]) {
+  buses.forEach(bus => {
+    bus.runningDays = bitStringToDays(bus.runningDays)
+  })
+  return buses
+}
+
+function toModelBus (bus) {
+  bus.runningDays = daysToBitString(bus.runningDays)
   return bus
 }
 
-function getPostgresValues (bus) {
-  bus.running_days = daysToBitString(bus.running_days)
-  return busProperties.map(key => bus[key])
+function toCamelCase (string) {
+  return string.replace(/(_[a-z])/g, s => s[1].toUpperCase())
 }
 
-module.exports = { getPostgresValues, getValues, busProperties }
+function getStandardObject (object) {
+  const standardObject = {}
+  Object.entries(object).forEach(([key, value]) => {
+    standardObject[toCamelCase(key)] = value
+  })
+  return standardObject
+}
+
+module.exports = {
+  getStandardObject,
+  busProperties,
+  toViewBuses,
+  toModelBus
+}

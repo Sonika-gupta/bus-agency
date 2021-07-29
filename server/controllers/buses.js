@@ -15,19 +15,19 @@ async function filterBuses (req, res) {
 
 async function createBus (req, res) {
   const [error, result] = await db.createBus(req.body)
-  if (result) res.send(result[0])
+  if (result) res.send(result)
   else res.send({ error, message: 'Create Bus Failed' })
 }
 
 async function deleteBus (req, res) {
   const [error, result] = await db.deleteBus(req.params.id)
-  if (result) res.send(result[0])
+  if (result) res.send(result)
   else res.send({ error, message: 'Delete Bus Failed' })
 }
 
 async function updateBus (req, res) {
   const [error, result] = await db.updateBus(req.body)
-  if (result) res.send(result[0])
+  if (result) res.send(result)
   else res.send({ error, message: 'Update Bus Failed' })
 }
 
