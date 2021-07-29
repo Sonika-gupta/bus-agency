@@ -27,9 +27,8 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650
   },
-  tableCell: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black
+  tableRow: {
+    background: theme.palette.common.white
   }
 }))
 
@@ -51,24 +50,19 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row.id}>
-              <TableCell className={classes.tableCell}>
+            <TableRow key={row.id} className={classes.tableRow}>
+              <TableCell>
                 <IconButton
                   aria-label='edit row'
                   size='small'
                   onClick={e => onEdit(e, row)}
                   color='inherit'
-                  style={{ opacity: 0.8 }}
                 >
                   <EditIcon fontSize='small' />
                 </IconButton>
               </TableCell>
               {columns.map(column => (
-                <TableCell
-                  className={classes.tableCell}
-                  align={column.align}
-                  key={column.key}
-                >
+                <TableCell align={column.align} key={column.key}>
                   {column.render
                     ? column.render(row)
                     : column.valueGetter
@@ -76,13 +70,12 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
                     : row[column.key]}
                 </TableCell>
               ))}
-              <TableCell className={classes.tableCell}>
+              <TableCell>
                 <IconButton
                   aria-label='edit row'
                   size='small'
                   onClick={e => onDelete(e, row)}
                   color='inherit'
-                  style={{ opacity: 0.8 }}
                 >
                   <DeleteIcon fontSize='small' />
                 </IconButton>

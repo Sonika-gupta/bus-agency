@@ -87,6 +87,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
             label='Bus Number'
             value={bus.busNumber}
             fullWidth
+            autoFocus
           />
         </Grid>
         <Grid item xs={12} sm={9}>
