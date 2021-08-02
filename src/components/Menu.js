@@ -1,44 +1,41 @@
 import { NavLink as Link } from 'react-router-dom'
 import {
-  Group,
+  Commute,
   DirectionsBus,
-  Settings,
+  Dashboard,
+  Group,
   LibraryBooks,
-  Dashboard
+  Settings
 } from '@material-ui/icons'
 import {
+  Tooltip,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
-  Tooltip,
-  makeStyles
+  Divider
 } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => {
-  return {
-    selected: {
-      backgroundColor: 'rgba(255, 255, 255, 0.75) !important'
-    }
-  }
-})
 const mainMenu = [
   {
-    title: 'Dashboard',
+    title: 'dashboard',
     icon: <Dashboard />
   },
   {
-    title: 'users',
-    icon: <Group />
+    title: 'bookings',
+    icon: <LibraryBooks />
   },
   {
     title: 'buses',
     icon: <DirectionsBus />
   },
   {
-    title: 'bookings',
-    icon: <LibraryBooks />
+    title: 'users',
+    icon: <Group />
+  },
+  {
+    title: 'service providers',
+    icon: <Commute />
   }
 ]
 
@@ -51,16 +48,15 @@ const userMenu = [
 
 const partitions = [mainMenu, userMenu]
 export default function Menu ({ open }) {
-  const classes = useStyles()
   return (
     <div>
+      <Divider />
       {partitions.map((menu, i) => (
         <div key={i}>
           <List>
             {menu.map(({ title, icon }) => (
               <Link
                 to={`/${title}`}
-                activeClassName={classes.selected}
                 style={{ textDecoration: 'none', color: 'inherit' }}
                 key={title}
               >
@@ -69,9 +65,7 @@ export default function Menu ({ open }) {
                     title={open ? '' : title.toUpperCase()}
                     placement='right'
                   >
-                    <ListItemIcon style={{ color: 'inherit', opacity: 0.8 }}>
-                      {icon}
-                    </ListItemIcon>
+                    <ListItemIcon>{icon}</ListItemIcon>
                   </Tooltip>
                   <ListItemText
                     primary={title}

@@ -1,71 +1,30 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  CssBaseline,
-  Drawer,
-  Divider,
-  IconButton,
-  Container,
-  Grid,
-  Paper
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import { CssBaseline, Drawer, Container, Grid, Paper } from '@material-ui/core'
 import Menu from './Menu.js'
 import Buses from './Buses'
 import Users from './Users'
-// import CompanyLogo from './CompanyLogo.js'
+import CompanyLogo from './CompanyLogo.js'
 
-const drawerWidth = 240
+const drawerWidth = 260
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex'
   },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  menuButton: {
-    ...theme.mixins.toolbar
-  },
   drawerPaper: {
+    color: theme.palette.primary.contrastText,
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+    height: '100vh'
   },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9)
-    }
-  },
-  appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    width: '80vw',
-    margin: 20,
+    margin: '10px',
     overflow: 'auto'
   },
-  /* container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
-  }, */
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -79,13 +38,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard () {
   const classes = useStyles()
-  const [showSidebar, setShowSidebar] = useState(true)
-  const handleDrawerOpen = () => {
-    setShowSidebar(true)
-  }
-  const handleDrawerClose = () => {
-    setShowSidebar(false)
-  }
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   return (
@@ -95,35 +47,13 @@ export default function Dashboard () {
         <Drawer
           variant='permanent'
           classes={{
-            paper: clsx(
-              classes.drawerPaper,
-              !showSidebar && classes.drawerPaperClose
-            )
+            paper: classes.drawerPaper
           }}
         >
-          {showSidebar ? (
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={handleDrawerClose} color='inherit'>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-          ) : (
-            <IconButton
-              edge='start'
-              color='inherit'
-              aria-label='showSidebar drawer'
-              onClick={handleDrawerOpen}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-          <Divider />
-          <Menu open={showSidebar} />
+          <CompanyLogo />
+          <Menu open={true} />
         </Drawer>
         <main className={classes.content}>
-          {/* <CompanyLogo /> */}
-          <div className={classes.appBarSpacer} />
           <Switch>
             <Route path='/buses'>
               <Buses />
@@ -132,6 +62,7 @@ export default function Dashboard () {
               <Users />
             </Route>
             <Route path='/bookings'></Route>
+            <Route path='/service providers'></Route>
             <Route path='/settings'></Route>
             <Route path='/'>
               <Container className={classes.container}>

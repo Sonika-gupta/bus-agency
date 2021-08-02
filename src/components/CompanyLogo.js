@@ -4,10 +4,10 @@ export default function CompanyLogo () {
   return (
     <Typography
       variant='h5'
-      component='span'
+      // component='span'
       color='primary'
       noWrap
-      style={{ marginLeft: '10vw', lineHeight: '60px' }}
+      style={{ margin: '20px auto 0 auto', lineHeight: '60px' }}
     >
       PROJECT A1
     </Typography>

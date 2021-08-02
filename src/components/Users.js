@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import {
-  Box,
   Button,
   Dialog,
   DialogContent,
@@ -8,16 +7,12 @@ import {
   DialogTitle,
   makeStyles
 } from '@material-ui/core'
+import Header from './Header'
 import List from './List'
 import UserForm from './UserForm'
 // import { userApi as api } from '../api'
 
 const useStyles = makeStyles(theme => ({
-  actionPanel: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '20px'
-  },
   form: {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.primary.main
@@ -78,20 +73,14 @@ export default function Users () {
     return () => setUsers([])
   }, [])
  */
+
+  function onAdd () {
+    setOpen(true)
+    setAction('add')
+  }
   return (
     <>
-      <Box className={classes.actionPanel}>
-        <Button
-          color='primary'
-          variant='contained'
-          onClick={() => {
-            setOpen(true)
-            setAction('add')
-          }}
-        >
-          Add User
-        </Button>
-      </Box>
+      <Header heading='users/' action={{ title: 'ADD USER', onClick: onAdd }} />
       <List rows={users} columns={columns} />
       <Dialog
         open={open}

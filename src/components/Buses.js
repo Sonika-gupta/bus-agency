@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import {
-  Box,
   Button,
   Dialog,
   DialogContent,
@@ -9,18 +8,13 @@ import {
   makeStyles
 } from '@material-ui/core'
 import { busApi as api } from '../api'
+import Header from './Header'
 import List from './List'
 import BusForm from './BusForm'
 
 const useStyles = makeStyles(theme => ({
-  actionPanel: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '20px'
-  },
   form: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.primary.main
+    backgroundColor: theme.palette.background.default
   },
   dialogContent: {
     overflow: 'visible'
@@ -91,6 +85,11 @@ export default function Buses () {
     setOpen(true)
   }
 
+  function onAdd () {
+    setOpen(true)
+    setAction('add')
+  }
+
   async function editBus (bus) {
     try {
       const updatedBus = await api.updateBus(bus)
@@ -136,18 +135,7 @@ export default function Buses () {
 
   return (
     <>
-      <Box className={classes.actionPanel}>
-        <Button
-          color='primary'
-          variant='contained'
-          onClick={() => {
-            setOpen(true)
-            setAction('add')
-          }}
-        >
-          Add Bus
-        </Button>
-      </Box>
+      <Header heading='buses/' action={{ title: 'ADD BUS', onClick: onAdd }} />
       <List
         rows={buses}
         columns={columns}
