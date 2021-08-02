@@ -6,8 +6,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  Paper
+  TableBody
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 export default function List ({ rows, columns, onEdit, onDelete }) {
   const classes = useStyles()
   return (
-    <TableContainer component={Paper} style={{ width: '100%', margin: 'auto' }}>
+    <TableContainer style={{ width: '100%', margin: 'auto' }}>
       <Table className={classes.table} aria-label='rows'>
         <TableHead>
           <TableRow>
@@ -56,9 +55,8 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
                   aria-label='edit row'
                   size='small'
                   onClick={e => onEdit(e, row)}
-                  color='inherit'
                 >
-                  <EditIcon fontSize='small' />
+                  <EditIcon fontSize='small' color='action' />
                 </IconButton>
               </TableCell>
               {columns.map(column => (
@@ -75,9 +73,8 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
                   aria-label='edit row'
                   size='small'
                   onClick={e => onDelete(e, row)}
-                  color='inherit'
                 >
-                  <DeleteIcon fontSize='small' />
+                  <DeleteIcon fontSize='small' color='error' />
                 </IconButton>
               </TableCell>
             </TableRow>

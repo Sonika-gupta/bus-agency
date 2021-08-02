@@ -236,7 +236,7 @@ export default function BusForm ({ editBus, handleSubmit }) {
               onChange={handleToggleChange}
             >
               {days.map((day, i) => (
-                <ToggleButton value={day} color='secondary' key={i}>
+                <ToggleButton value={day} key={i}>
                   {day[0]}
                 </ToggleButton>
               ))}

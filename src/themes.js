@@ -1,54 +1,39 @@
 const CadetTheme = {
   palette: {
-    // type: 'dark',
     primary: {
-      main: '#5A7684' // Cadet
+      main: '#00b3b0',
+      contrastText: '#fff'
     },
     secondary: {
-      main: '#ffb031' //bright yellow crayola
+      main: '#d7b73d'
     },
-    text: {
-      primary: '#fff'
-      // secondary: '#fafafa'
+    action: {
+      active: '#5586c0',
+      activatedOpacity: 0.8
     },
     background: {
-      // paper: '#B9BAA3', //Sage
-      paper: '#5A7684', // Cadet
-      // default: '#E5E4DC' // alabaster
-      default: '#f1f1f1'
+      paper: ' #1b243f',
+      default: '#ecf3f3'
     },
     common: {
       white: '#fafafa',
       black: '#0A100D' // rich black fogra 39
     },
-    action: {
-      selected: 'rgba(255, 255, 255, 0.75)'
-    }
+    divider: 'rgba(0, 0, 0, 1)'
   },
   typography: {
     fontSize: 14
   },
   overrides: {
-    MuiInputBase: {
-      input: {
-        paddingLeft: 2,
-        color: '#5A7684' // Cadet
-      }
-    },
-    MuiToggleButton: {
-      root: {
-        padding: '2px 11px',
-        marginTop: 19
-      }
-    },
     MuiGrid: {
       item: {
         marginTop: 3
       }
     },
-    MuiTableCell: {
-      body: {
-        color: 'black'
+    MuiDivider: {
+      root: {
+        margin: '5px auto',
+        height: 2
       }
     },
     MuiIconButton: {
@@ -56,9 +41,20 @@ const CadetTheme = {
         opacity: 0.7
       }
     },
+    MuiInputBase: {
+      input: {
+        paddingLeft: 2
+      }
+    },
     MuiListItemIcon: {
       root: {
+        color: 'inherit',
         opacity: 0.7
+      }
+    },
+    MuiMenuItem: {
+      '&$selected': {
+        backgroundColor: 'rgba(255, 255, 255, 0.85)'
       }
     },
     MuiTableRow: {
@@ -67,11 +63,26 @@ const CadetTheme = {
           backgroundColor: 'rgba(255, 255, 255, 0.85)'
         }
       }
+    },
+    MuiTableCell: {
+      body: {
+        color: 'black'
+      },
+      head: {
+        backgroundColor: '#b9c5ca',
+        color: 'black'
+      }
+    },
+    MuiToggleButton: {
+      root: {
+        padding: '2px 11px',
+        marginTop: 19
+      }
     }
   }
 }
 
-const CoolTheme = {
+const theme2 = {
   palette: {
     primary: {
       main: '#f0f4c3' // green
@@ -119,4 +130,4 @@ const CoolTheme = {
   }
 }
 
-export { CadetTheme, CoolTheme }
+export { CadetTheme, theme2 }
