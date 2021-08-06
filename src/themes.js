@@ -1,7 +1,7 @@
 const CadetTheme = {
   palette: {
     primary: {
-      main: '#00b3b0',
+      main: '#00b3b0', // navy blue
       contrastText: '#fff'
     },
     secondary: {
@@ -9,10 +9,11 @@ const CadetTheme = {
     },
     action: {
       active: '#5586c0',
-      activatedOpacity: 0.8
+      selected: 'rgba(255, 255, 255, 0.6)',
+      hover: 'rgba(255, 255, 255, 0.3)'
     },
     background: {
-      paper: ' #1b243f',
+      paper: ' #1b243f', // navy blue
       default: '#ecf3f3'
     },
     common: {
@@ -38,7 +39,7 @@ const CadetTheme = {
     },
     MuiIconButton: {
       root: {
-        opacity: 0.7
+        opacity: 0.9
       }
     },
     MuiInputBase: {
@@ -53,8 +54,8 @@ const CadetTheme = {
       }
     },
     MuiMenuItem: {
-      '&$selected': {
-        backgroundColor: 'rgba(255, 255, 255, 0.85)'
+      root: {
+        color: 'white'
       }
     },
     MuiTableRow: {

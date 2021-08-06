@@ -27,10 +27,8 @@ const useStyles = makeStyles(theme => ({
   labelBold: {
     fontWeight: 'bold'
   },
-  button: {
-    // TODO: find a way to remove !important / increase specificity
-    backgroundColor: `${theme.palette.primary.main} !important`,
-    color: `${theme.palette.common.white} !important`
+  toggleButton: {
+    color: theme.palette.action.active
   },
   checkAll: { width: '100%' }
 }))
@@ -225,8 +223,8 @@ export default function BusForm ({ editBus, handleSubmit }) {
               value='all'
               selected={checkAllDays()}
               onChange={handleToggleAll}
+              className={classes.toggleButton}
               style={{ marginRight: 3 }}
-              classes={{ selected: classes.button }}
             >
               All
             </ToggleButton>
@@ -236,7 +234,11 @@ export default function BusForm ({ editBus, handleSubmit }) {
               onChange={handleToggleChange}
             >
               {days.map((day, i) => (
-                <ToggleButton value={day} key={i}>
+                <ToggleButton
+                  value={day}
+                  key={i}
+                  className={classes.toggleButton}
+                >
                   {day[0]}
                 </ToggleButton>
               ))}

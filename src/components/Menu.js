@@ -13,8 +13,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  makeStyles
 } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  active: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+  }
+}))
 
 const mainMenu = [
   {
@@ -48,31 +55,32 @@ const userMenu = [
 
 const partitions = [mainMenu, userMenu]
 export default function Menu ({ open }) {
+  const classes = useStyles()
   return (
     <div>
       <Divider />
       {partitions.map((menu, i) => (
         <div key={i}>
           <List>
-            {menu.map(({ title, icon }) => (
-              <Link
+            {menu.map(({ title, icon }, i) => (
+              <ListItem
+                button
+                component={Link}
                 to={`/${title}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                key={title}
+                activeClassName={classes.active}
+                key={i}
               >
-                <ListItem button>
-                  <Tooltip
-                    title={open ? '' : title.toUpperCase()}
-                    placement='right'
-                  >
-                    <ListItemIcon>{icon}</ListItemIcon>
-                  </Tooltip>
-                  <ListItemText
-                    primary={title}
-                    style={{ textTransform: 'capitalize' }}
-                  />
-                </ListItem>
-              </Link>
+                <Tooltip
+                  title={open ? '' : title.toUpperCase()}
+                  placement='right'
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                </Tooltip>
+                <ListItemText
+                  primary={title}
+                  style={{ textTransform: 'capitalize' }}
+                />
+              </ListItem>
             ))}
           </List>
           <Divider />
