@@ -1,17 +1,8 @@
 import fetch from './fetchData'
 
-const route = '/users'
+const route = 'users/'
 async function getUsers () {
-  const res = await window.fetch(route)
-  return await res.json()
-}
-
-async function searchUsers (filters) {
-  console.log(filters)
-  const searchUrl = new URL(route + '/filter')
-  searchUrl.search = new URLSearchParams(filters).toString()
-  const res = await window.fetch(searchUrl)
-  console.log(res)
+  return await fetch(route)
 }
 
 function addUser (user) {
@@ -26,5 +17,5 @@ function updateUser (user) {
   return fetch(route, user, 'PUT')
 }
 
-const users = { getUsers, searchUsers, addUser, deleteUser, updateUser }
+const users = { getUsers, addUser, deleteUser, updateUser }
 export default users

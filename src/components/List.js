@@ -60,7 +60,11 @@ export default function List ({ rows, columns, onEdit, onDelete }) {
                 </IconButton>
               </TableCell>
               {columns.map(column => (
-                <TableCell align={column.align} key={column.key}>
+                <TableCell
+                  align={column.align}
+                  key={column.key}
+                  style={column.style}
+                >
                   {column.render
                     ? column.render(row)
                     : column.valueGetter

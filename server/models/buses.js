@@ -1,9 +1,9 @@
-const { toViewBuses, toModelBus, busProperties } = require('../utils')
+const { toViewBuses, toModelBus, toCamelCase } = require('../utils')
+
+const { bus: properties } = require('../properties')
 const poolQuery = require('./poolQuery')
 
-const properties = Object.keys(busProperties)
-const getPostgresValues = bus =>
-  Object.values(busProperties).map(key => bus[key])
+const getPostgresValues = bus => properties.map(key => bus[toCamelCase(key)])
 
 async function getAllBuses () {
   // TODO: Add limit with offset and pages

@@ -5,10 +5,10 @@ import { initUser, userType } from '../values'
 export default function UserForm ({ editUser, handleSubmit }) {
   const [user, setUser] = useReducer(
     (user, newValue) => ({ ...user, ...newValue }),
-    editUser?.id ? editUser : initUser
+    editUser || initUser
   )
 
-  console.log('User', user)
+  // console.log('User', user)
   function handleChange (e) {
     console.log(e.target.name, e.target.value)
     setUser({ [e.target.name]: e.target.value })
@@ -16,7 +16,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
 
   return (
     <form
-      id='UserForm'
+      id='userForm'
       onSubmit={e => handleSubmit(e, user)}
       onChange={handleChange}
     >
@@ -46,7 +46,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
         <Grid item xs={12} sm={6}>
           <TextField
             value={user.fname}
-            name='firstName'
+            name='fname'
             label='First Name'
             required
             fullWidth
@@ -57,7 +57,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
         <Grid item xs={12} sm={6}>
           <TextField
             value={user.lname}
-            name='lastName'
+            name='lname'
             label='Last Name'
             required
             fullWidth
@@ -75,18 +75,13 @@ export default function UserForm ({ editUser, handleSubmit }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            value={user.password}
-            name='password'
-            label='Password'
-            required
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
             value={user.contact}
-            name='username'
+            name='contact'
             label='Contact Number'
+            inputProps={{
+              pattern: '[0-9]{10}',
+              title: '10-digit phone number'
+            }}
             required
             fullWidth
           />
@@ -94,6 +89,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
         <Grid item xs={12}>
           <TextField
             value={user.email}
+            type='email'
             required
             fullWidth
             id='email'

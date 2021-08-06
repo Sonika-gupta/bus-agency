@@ -55,7 +55,7 @@ const initUser = {
   email: '',
   password: '',
   contact: '',
-  staus: 'active',
+  isActive: true,
   lastActive: ''
 }
 

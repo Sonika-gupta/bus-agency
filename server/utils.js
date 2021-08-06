@@ -8,23 +8,6 @@ const days = [
   'sunday'
 ]
 
-const busProperties = {
-  bus_number: 'busNumber',
-  bus_name: 'busName',
-  source: 'source',
-  destination: 'destination',
-  depart_time: 'departTime',
-  arrival_time: 'arrivalTime',
-  bus_type: 'busType',
-  chart: 'chart',
-  running_days: 'runningDays',
-  amenities: 'amenities',
-  seat_fare: 'seatFare',
-  sleeper_fare: 'sleeperFare',
-  agent_seat_fare: 'agentSeatFare',
-  agent_sleeper_fare: 'agentSleeperFare'
-}
-
 function daysToBitString (array) {
   const bitArray = days.map(day => (array.includes(day) ? 1 : 0))
   return bitArray.join('')
@@ -38,6 +21,8 @@ function bitStringToDays (string) {
 function toViewBuses ([...buses]) {
   buses.forEach(bus => {
     bus.runningDays = bitStringToDays(bus.runningDays)
+    // bus.arrivalTime = bus.arrivalTime.split(0, 4)
+    // bus.departTime = bus.departTime.split(0, 4)
   })
   return buses
 }
@@ -61,7 +46,7 @@ function getStandardObject (object) {
 
 module.exports = {
   getStandardObject,
-  busProperties,
   toViewBuses,
-  toModelBus
+  toModelBus,
+  toCamelCase
 }

@@ -79,7 +79,7 @@ export default function Buses () {
     setBus({})
   }
 
-  function handleOnEdit (e, bus) {
+  function handleEdit (e, bus) {
     setAction('edit')
     setBus(bus)
     setOpen(true)
@@ -115,7 +115,7 @@ export default function Buses () {
 
   async function handleDelete (e, bus) {
     try {
-      const consent = window.confirm(`Delete Bus ${bus.busName}`)
+      const consent = window.confirm(`Delete Bus ${bus.busName}?`)
       if (consent) {
         const deletedBus = await api.deleteBus(bus)
         setBuses(buses.filter(bus => bus.id !== deletedBus.id))
@@ -139,7 +139,7 @@ export default function Buses () {
       <List
         rows={buses}
         columns={columns}
-        onEdit={handleOnEdit}
+        onEdit={handleEdit}
         onDelete={handleDelete}
       />
       <Dialog

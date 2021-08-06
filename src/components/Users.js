@@ -10,7 +10,7 @@ import {
 import Header from './Header'
 import List from './List'
 import UserForm from './UserForm'
-// import { userApi as api } from '../api'
+import { userApi as api } from '../api'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -28,51 +28,94 @@ const useStyles = makeStyles(theme => ({
 
 const columns = [
   { key: 'type', title: 'Type' },
-  { key: 'username', title: 'Username' },
+  { key: 'username', title: 'User Name' },
   {
     key: 'name',
     title: 'Full Name',
-    render: user => `${user.fname} ${user.lname}`
+    render: user => `${user.fname} ${user.lname}`,
+    style: { textTransform: 'capitalize' }
   },
   { key: 'email', title: 'Email' },
   {
-    key: 'status',
+    key: 'isActive',
     title: 'Status',
     render: user =>
       user.isActive ? 'Active' : `Last Active on ${user.lastActive}`
   }
-  // { key: 'bookings', title: 'Total Bookings' }
 ]
 
 export default function Users () {
   const [users, setUsers] = useState([])
+  const [user, setUser] = useState({})
   const [open, setOpen] = useState(false)
   const [action, setAction] = useState('add')
   const classes = useStyles()
 
-  async function handleSubmit (e, user) {
+  function handleSubmit (e, user) {
     e.preventDefault()
-    /* try {
-      const newUser = await api.addUser(user)
-      setUsers([...users, newUser])
-      window.alert(`Bus Added with id ${newUser.id}`)
-      setOpen(false)
-      console.log(e.target, newUser)
-    } catch (err) {
-      console.log(JSON.stringify(err))
-      window.alert(JSON.stringify(err).message)
-    } */
-    console.log(user)
+    user.id ? editUser(user) : newUser(user)
   }
-  /*
+
+  function handleClose () {
+    setOpen(false)
+    setUser({})
+  }
+
+  function handleEdit (e, user) {
+    setAction('edit')
+    setUser(user)
+    setOpen(true)
+  }
+
+  function onAdd () {
+    setOpen(true)
+    setAction('add')
+  }
+
+  async function editUser (user) {
+    try {
+      const updatedUser = await api.updateUser(user)
+      setUsers(
+        users.map(user => (user.id === updatedUser.id ? updatedUser : user))
+      )
+
+      handleClose()
+      window.alert(`User ${updatedUser.username} Updated!`)
+    } catch (err) {
+      window.alert(JSON.stringify(err).message)
+    }
+  }
+
+  async function newUser (user) {
+    try {
+      const addedUser = await api.addUser(user)
+      setUsers([...users, addedUser])
+      window.alert(`User ${addedUser.username} Added! `)
+      handleClose()
+    } catch (err) {
+      window.alert(JSON.stringify(err).message)
+    }
+  }
+
+  async function handleDelete (e, user) {
+    try {
+      const consent = window.confirm(`Delete User ${user.username}?`)
+      if (consent) {
+        const deletedUser = await api.deleteUser(user)
+        setUsers(users.filter(user => user.id !== deletedUser.id))
+        window.alert(`User ${deletedUser.username} Deleted!`)
+      }
+    } catch (err) {
+      window.alert(JSON.stringify(err).message)
+    }
+  }
+
   console.log(users)
   useEffect(() => {
     ;(async () => {
       setUsers(await api.getUsers())
     })()
-    return () => setUsers([])
   }, [])
- */
 
   function onAdd () {
     setOpen(true)
@@ -81,7 +124,12 @@ export default function Users () {
   return (
     <>
       <Header heading='users/' action={{ title: 'ADD USER', onClick: onAdd }} />
-      <List rows={users} columns={columns} />
+      <List
+        rows={users}
+        columns={columns}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
