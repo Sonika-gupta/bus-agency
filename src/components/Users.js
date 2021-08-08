@@ -1,33 +1,13 @@
 import { useState, useEffect } from 'react'
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  makeStyles
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
+import { userApi as api } from '../api'
 import Header from './Header'
 import List from './List'
+import CustomDialog from './CustomDialog'
 import UserForm from './UserForm'
-import { userApi as api } from '../api'
-
-const useStyles = makeStyles(theme => ({
-  form: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.primary.main
-  },
-  dialogContent: {
-    overflow: 'visible'
-  },
-  dialogActions: {
-    margin: 20,
-    justifyContent: 'space-between'
-  }
-}))
 
 const columns = [
-  { key: 'type', title: 'Type' },
+  { key: 'type', title: 'Type', style: { textTransform: 'capitalize' } },
   { key: 'username', title: 'User Name' },
   {
     key: 'name',
@@ -44,57 +24,27 @@ const columns = [
   }
 ]
 
-export default function Users () {
+const initDialog = {
+  open: false,
+  user: {},
+  action: 'add'
+}
+
+export default function Users ({ setNotif }) {
   const [users, setUsers] = useState([])
-  const [user, setUser] = useState({})
-  const [open, setOpen] = useState(false)
-  const [action, setAction] = useState('add')
-  const classes = useStyles()
-
-  function handleSubmit (e, user) {
-    e.preventDefault()
-    user.id ? editUser(user) : newUser(user)
-  }
-
-  function handleClose () {
-    setOpen(false)
-    setUser({})
-  }
-
-  function handleEdit (e, user) {
-    setAction('edit')
-    setUser(user)
-    setOpen(true)
-  }
-
-  function onAdd () {
-    setOpen(true)
-    setAction('add')
-  }
+  const [dialog, setDialog] = useState(initDialog)
 
   async function editUser (user) {
-    try {
-      const updatedUser = await api.updateUser(user)
-      setUsers(
-        users.map(user => (user.id === updatedUser.id ? updatedUser : user))
-      )
-
-      handleClose()
-      window.alert(`User ${updatedUser.username} Updated!`)
-    } catch (err) {
-      window.alert(JSON.stringify(err).message)
-    }
+    const updatedUser = await api.updateUser(user)
+    users[users.findIndex(user => user.id === updatedUser.id)] = user
+    setUsers([...users])
+    return updatedUser
   }
 
   async function newUser (user) {
-    try {
-      const addedUser = await api.addUser(user)
-      setUsers([...users, addedUser])
-      window.alert(`User ${addedUser.username} Added! `)
-      handleClose()
-    } catch (err) {
-      window.alert(JSON.stringify(err).message)
-    }
+    const addedUser = await api.addUser(user)
+    setUsers([...users, addedUser])
+    return addedUser
   }
 
   async function handleDelete (e, user) {
@@ -102,56 +52,95 @@ export default function Users () {
       const consent = window.confirm(`Delete User ${user.username}?`)
       if (consent) {
         const deletedUser = await api.deleteUser(user)
-        setUsers(users.filter(user => user.id !== deletedUser.id))
-        window.alert(`User ${deletedUser.username} Deleted!`)
+        const i = user.findIndex(obj => obj.id === deletedUser.id)
+        setUsers([...users.splice(i, 1)])
+        setNotif({
+          type: 'success',
+          message: deletedUser.type + deletedUser.username + 'Deleted!'
+        })
       }
-    } catch (err) {
-      window.alert(JSON.stringify(err).message)
+    } catch (error) {
+      setNotif({ error })
     }
   }
 
-  console.log(users)
+  async function handleSubmit (e, user) {
+    e.preventDefault()
+    try {
+      const result = user.id ? await editUser(user) : await newUser(user)
+      setNotif({
+        type: 'success',
+        message:
+          result.type + result.username + dialog.action === 'edit'
+            ? 'Updated!'
+            : 'Added!'
+      })
+      handleClose()
+    } catch (error) {
+      setNotif({ error })
+    }
+  }
+
+  function handleClose () {
+    setDialog(initDialog)
+  }
+
+  function onClickEdit (e, user) {
+    setDialog({ open: true, action: 'edit', user })
+  }
+
+  function onClickAdd () {
+    setDialog({ open: true, action: 'add' })
+  }
+
   useEffect(() => {
     ;(async () => {
       setUsers(await api.getUsers())
     })()
   }, [])
 
-  function onAdd () {
-    setOpen(true)
-    setAction('add')
-  }
   return (
     <>
-      <Header heading='users/' action={{ title: 'ADD USER', onClick: onAdd }} />
+      <Header heading='users' onClick={onClickAdd} />
       <List
         rows={users}
         columns={columns}
-        onEdit={handleEdit}
+        onEdit={onClickEdit}
         onDelete={handleDelete}
       />
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        fullWidth
-        classes={{ paper: classes.form }}
-      >
-        <DialogTitle>{action.toUpperCase()} USER</DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          <UserForm handleSubmit={handleSubmit} />
-        </DialogContent>
-        <DialogActions className={classes.dialogActions}>
-          <Button
-            variant='contained'
-            color='primary'
-            type='submit'
-            fullWidth
-            form='userForm'
-          >
-            Sign Up
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CustomDialog
+        open={dialog.open}
+        onClose={handleClose}
+        title={`${dialog.action.toUpperCase()} USER`}
+        form={<UserForm editUser={dialog.user} handleSubmit={handleSubmit} />}
+        actions={
+          dialog.action === 'add' ? (
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              fullWidth
+              form='userForm'
+            >
+              Sign Up
+            </Button>
+          ) : (
+            <>
+              <Button variant='contained' onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button
+                variant='contained'
+                color='primary'
+                type='submit'
+                form='userForm'
+              >
+                Submit
+              </Button>
+            </>
+          )
+        }
+      />
     </>
   )
 }

@@ -1,19 +1,29 @@
+const color = {
+  lightBlue: '#5586c0',
+  orange: '#d7b73d',
+  turquoise: '#00b3b0',
+  navyBlue: '#1b243f',
+  greyBlue: '#b9c5ca'
+}
 const CadetTheme = {
   palette: {
     primary: {
-      main: '#00b3b0', // navy blue
+      main: color.lightBlue,
       contrastText: '#fff'
     },
     secondary: {
-      main: '#d7b73d'
+      main: color.orange
     },
     action: {
-      active: '#5586c0',
+      active: color.lightBlue,
       selected: 'rgba(255, 255, 255, 0.6)',
       hover: 'rgba(255, 255, 255, 0.3)'
     },
+    text: {
+      primary: color.navyBlue
+    },
     background: {
-      paper: ' #1b243f', // navy blue
+      paper: color.navyBlue, // navy blue
       default: '#ecf3f3'
     },
     common: {
@@ -70,7 +80,7 @@ const CadetTheme = {
         color: 'black'
       },
       head: {
-        backgroundColor: '#b9c5ca',
+        backgroundColor: color.greyBlue,
         color: 'black'
       }
     },

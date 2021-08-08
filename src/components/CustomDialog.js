@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle: {
     // color: theme.palette.primary.main
+    textTransform: 'uppercase'
   },
   dialogContent: {
     overflow: 'visible'

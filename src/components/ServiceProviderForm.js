@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { Grid, MenuItem, TextField } from '@material-ui/core'
+import { Grid, TextField } from '@material-ui/core'
 import { initServiceProvider } from '../values'
 import { MobileInput, LandlineInput } from './ContactInput'
 
@@ -85,18 +85,7 @@ export default function ServiceProviderForm ({ editProvider, handleSubmit }) {
           <MobileInput value={provider.contact} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            type='tel'
-            value={provider.landline}
-            name='landline'
-            label='Landline'
-            inputProps={{
-              pattern: '[0-9]{11}',
-              title: '(3-digit-extension)'
-            }}
-            required
-            fullWidth
-          />
+          <LandlineInput value={provider.landline} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField

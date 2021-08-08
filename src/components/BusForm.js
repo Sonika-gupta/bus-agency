@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   },
   toggleButton: {
-    color: theme.palette.action.active
+    color: 'inherit'
   },
   checkAll: { width: '100%' }
 }))

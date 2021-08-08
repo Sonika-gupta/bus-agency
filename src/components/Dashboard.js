@@ -1,3 +1,4 @@
+import { useReducer } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,6 +8,7 @@ import Buses from './Buses'
 import Users from './Users'
 import ServiceProviders from './ServiceProviders.js'
 import CompanyLogo from './CompanyLogo.js'
+import Notify from './Notify'
 
 const drawerWidth = 260
 
@@ -37,12 +39,33 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const notify = (value, { close, error, type, message }) =>
+  close
+    ? { close: true }
+    : error
+    ? { close: false, type: 'error', message: JSON.stringify(error).message }
+    : { close: false, type, message }
+
+const initNotif = {
+  close: true,
+  message: undefined,
+  type: 'info',
+  error: undefined
+}
+
 export default function Dashboard () {
   const classes = useStyles()
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+  const [notif, setNotif] = useReducer(notify, initNotif)
 
   return (
     <div className={classes.root}>
+      <Notify
+        open={!notif.close}
+        message={notif.message}
+        type={notif.type}
+        handleClose={() => setNotif({ close: true })}
+      />
       <Router>
         <CssBaseline />
         <Drawer
@@ -60,7 +83,7 @@ export default function Dashboard () {
               <Buses />
             </Route>
             <Route path='/users'>
-              <Users />
+              <Users setNotif={setNotif} />
             </Route>
             <Route path='/bookings'></Route>
             <Route path='/service providers'>

@@ -112,10 +112,6 @@ export default function ServiceProviders () {
     })()
   }, [])
 
-  function onAdd () {
-    setOpen(true)
-    setAction('add')
-  }
   return (
     <>
       <Header

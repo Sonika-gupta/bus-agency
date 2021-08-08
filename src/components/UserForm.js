@@ -1,11 +1,12 @@
 import { useReducer } from 'react'
 import { Grid, MenuItem, TextField } from '@material-ui/core'
 import { initUser, userType } from '../values'
+import { MobileInput } from './ContactInput'
 
 export default function UserForm ({ editUser, handleSubmit }) {
   const [user, setUser] = useReducer(
     (user, newValue) => ({ ...user, ...newValue }),
-    editUser || initUser
+    Object.assign({}, initUser, editUser)
   )
 
   // console.log('User', user)
@@ -20,7 +21,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
       onSubmit={e => handleSubmit(e, user)}
       onChange={handleChange}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
             select
@@ -74,17 +75,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            value={user.contact}
-            name='contact'
-            label='Contact Number'
-            inputProps={{
-              pattern: '[0-9]{10}',
-              title: '10-digit phone number'
-            }}
-            required
-            fullWidth
-          />
+          <MobileInput value={user.contact} />
         </Grid>
         <Grid item xs={12}>
           <TextField
