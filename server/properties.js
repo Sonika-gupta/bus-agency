@@ -25,7 +25,7 @@ const user = [
   'is_active'
 ]
 
-const serviceProvider = [
+const operator = [
   'name',
   'vat_no',
   'address_line1',
@@ -40,4 +40,4 @@ const serviceProvider = [
   'designation'
 ]
 
-module.exports = { bus, user, serviceProvider }
+module.exports = { bus, user, operator }

@@ -20,13 +20,13 @@ async function createUser (user) {
   const query = `INSERT INTO users (${props}) VALUES (${paramString}) RETURNING *`
   const values = getPostgresValues(user)
   const [err, res] = await poolQuery(query, values)
-  return [err, res[0]]
+  return [err, res && res[0]]
 }
 
 async function deleteUser (id) {
   const query = 'DELETE FROM users WHERE id = $1 RETURNING *'
   const [err, res] = await poolQuery(query, [id])
-  return [err, res[0]]
+  return [err, res && res[0]]
 }
 
 async function updateUser (user) {
@@ -38,7 +38,7 @@ async function updateUser (user) {
 
   const values = [...getPostgresValues(user), user.id]
   const [err, res] = await poolQuery(query, values)
-  return [err, res[0]]
+  return [err, res && res[0]]
 }
 
 module.exports = {

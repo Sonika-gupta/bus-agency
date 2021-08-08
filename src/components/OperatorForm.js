@@ -1,12 +1,12 @@
 import { useReducer } from 'react'
 import { Grid, TextField } from '@material-ui/core'
-import { initServiceProvider } from '../values'
-import { MobileInput, LandlineInput } from './ContactInput'
+import { initOperator } from '../values'
+import { MobileInput, LandlineInput } from './CommonComponents'
 
-export default function ServiceProviderForm ({ editProvider, handleSubmit }) {
-  const [provider, setProvider] = useReducer(
-    (provider, newValue) => ({ ...provider, ...newValue }),
-    editProvider || initServiceProvider
+export default function OperatorForm ({ editProvider, handleSubmit }) {
+  const [operator, setProvider] = useReducer(
+    (operator, newValue) => ({ ...operator, ...newValue }),
+    editProvider || initOperator
   )
 
   function handleChange (e) {
@@ -16,8 +16,8 @@ export default function ServiceProviderForm ({ editProvider, handleSubmit }) {
 
   return (
     <form
-      id='serviceProviderForm'
-      onSubmit={e => handleSubmit(e, provider)}
+      id='operatorForm'
+      onSubmit={e => handleSubmit(e, operator)}
       onChange={handleChange}
     >
       <Grid container spacing={3}>
@@ -82,10 +82,10 @@ export default function ServiceProviderForm ({ editProvider, handleSubmit }) {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <MobileInput value={provider.contact} />
+          <MobileInput value={operator.contact} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <LandlineInput value={provider.landline} />
+          <LandlineInput value={operator.landline} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField

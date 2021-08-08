@@ -1,6 +1,6 @@
 const busRoute = require('./buses')
 const userRoute = require('./users')
-const serviceProviderRoute = require('./serviceProviders')
+const operatorRoute = require('./operators')
 // const bookingRoute = require('./bookings')
 // const seatRoute = require('./seats')
 // const tripRoute = require('./trips')
@@ -8,7 +8,7 @@ const serviceProviderRoute = require('./serviceProviders')
 module.exports = {
   busRoute,
   userRoute,
-  serviceProviderRoute
+  operatorRoute
   // bookingRoute,
   // seatRoute,
   // tripRoute

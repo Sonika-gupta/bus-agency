@@ -9,7 +9,6 @@ export default async function fetchData (route, data, method = 'GET') {
   })
   const value = await res.json()
   console.log('value: ', value)
-  if (value.error) throw Error(value)
-
+  if (value.error) throw value.error.message
   return value
 }

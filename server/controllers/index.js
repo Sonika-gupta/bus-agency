@@ -1,6 +1,6 @@
 const busController = require('./buses')
 const userController = require('./users')
-const serviceProviderController = require('./serviceProviders')
+const operatorController = require('./operators')
 // const bookingController = require('./bookings')
 // const seatController = require('./seats')
 // const tripController = require('./trips')
@@ -8,7 +8,7 @@ const serviceProviderController = require('./serviceProviders')
 module.exports = {
   busController,
   userController,
-  serviceProviderController
+  operatorController
   // bookingController,
   // seatController,
   // tripController

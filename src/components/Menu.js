@@ -41,7 +41,7 @@ const mainMenu = [
     icon: <Group />
   },
   {
-    title: 'service providers',
+    title: 'operators',
     icon: <Commute />
   }
 ]

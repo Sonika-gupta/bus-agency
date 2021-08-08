@@ -130,7 +130,7 @@ CREATE TABLE bookings (
     booked_on timestamp DEFAULT now() NOT NULL,
     modified_time timestamp,
     passenger_details json NOT NULL,
-    seat_id INT REFERENCES seats(id) UNIQUE,
+    seat_id INT REFERENCES seats(id) UNIQUE NOT NULL,
     trip_id INT REFERENCES trips(id) NOT NULL
 )
 

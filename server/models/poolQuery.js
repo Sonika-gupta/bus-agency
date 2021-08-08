@@ -10,9 +10,10 @@ async function poolQuery (query, values = []) {
     const result = await pool.query(query, values)
     return [null, result.rows.map(row => getStandardObject(row))]
   } catch (err) {
-    console.log(err)
+    console.error('---------', err.message)
     return [err, null]
   }
+  pool.end()
 }
 
 module.exports = poolQuery

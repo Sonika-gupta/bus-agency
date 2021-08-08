@@ -61,7 +61,7 @@ const initUser = {
 
 const userType = ['admin', 'agent', 'customer']
 
-const initServiceProvider = {
+const initOperator = {
   vatNo: '',
   name: '',
   addressLine1: '',
@@ -84,5 +84,5 @@ export {
   amenities,
   initUser,
   userType,
-  initServiceProvider
+  initOperator
 }

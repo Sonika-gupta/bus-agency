@@ -1,6 +1,6 @@
 const busModel = require('./buses')
 const userModel = require('./users')
-const serviceProviderModel = require('./serviceProviders')
+const operatorModel = require('./operators')
 // const { bookingModel } = require('./bookings')
 // const { seatModel } = require('./seats')
 // const { tripModel } = require('./trips')
@@ -8,7 +8,7 @@ const serviceProviderModel = require('./serviceProviders')
 module.exports = {
   busModel,
   userModel,
-  serviceProviderModel
+  operatorModel
   // bookingModel,
   // seatModel,
   // tripModel
