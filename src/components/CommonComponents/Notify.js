@@ -20,15 +20,21 @@ export default function Notify ({ open, message, type, handleClose }) {
       className={classes.root}
       key={message}
       anchorOrigin={{
-        vertical: 'bottom',
+        vertical: 'top',
         horizontal: 'right'
       }}
       open={open}
       autoHideDuration={3000}
       onClose={handleClose}
       TransitionComponent={Slide}
+      TransitionProps={{ direction: 'left' }}
     >
-      <Alert onClose={handleClose} severity={type} variant='filled'>
+      <Alert
+        onClose={handleClose}
+        severity={type}
+        variant='filled'
+        elevation={5}
+      >
         {message}
       </Alert>
     </Snackbar>

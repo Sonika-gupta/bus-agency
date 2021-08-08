@@ -1,14 +1,8 @@
-import { useReducer } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { CssBaseline, Drawer, Container, Grid, Paper } from '@material-ui/core'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { CssBaseline, Drawer, makeStyles } from '@material-ui/core'
 import Menu from './Menu.js'
-import Buses from './Buses'
-import Users from './Users'
-import ServiceProviders from './ServiceProviders.js'
-import CompanyLogo from './CompanyLogo.js'
-import Notify from './Notify'
+import CompanyLogo from './CompanyLogo'
+import Content from './Content.js'
 
 const drawerWidth = 260
 
@@ -25,47 +19,16 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    margin: '10px',
+    margin: '0 10px',
     overflow: 'auto'
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column'
-  },
-  fixedHeight: {
-    height: 240
   }
 }))
 
-const notify = (value, { close, error, type, message }) =>
-  close
-    ? { close: true }
-    : error
-    ? { close: false, type: 'error', message: JSON.stringify(error).message }
-    : { close: false, type, message }
-
-const initNotif = {
-  close: true,
-  message: undefined,
-  type: 'info',
-  error: undefined
-}
-
 export default function Dashboard () {
   const classes = useStyles()
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
-  const [notif, setNotif] = useReducer(notify, initNotif)
 
   return (
     <div className={classes.root}>
-      <Notify
-        open={!notif.close}
-        message={notif.message}
-        type={notif.type}
-        handleClose={() => setNotif({ close: true })}
-      />
       <Router>
         <CssBaseline />
         <Drawer
@@ -78,38 +41,7 @@ export default function Dashboard () {
           <Menu open={true} />
         </Drawer>
         <main className={classes.content}>
-          <Switch>
-            <Route path='/buses'>
-              <Buses />
-            </Route>
-            <Route path='/users'>
-              <Users setNotif={setNotif} />
-            </Route>
-            <Route path='/bookings'></Route>
-            <Route path='/service providers'>
-              <ServiceProviders />
-            </Route>
-            <Route path='/settings'></Route>
-            <Route path='/'>
-              <Container className={classes.container}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={8} lg={9}>
-                    <Paper className={fixedHeightPaper}>
-                      {/* <Chart /> */}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12} md={4} lg={3}>
-                    <Paper className={fixedHeightPaper}>
-                      {/* <Deposits /> */}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>{/* <Orders /> */}</Paper>
-                  </Grid>
-                </Grid>
-              </Container>
-            </Route>
-          </Switch>
+          <Content />
         </main>
       </Router>
     </div>

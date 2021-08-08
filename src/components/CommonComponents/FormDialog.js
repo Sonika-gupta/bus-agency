@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CustomDialog ({
+export default function FormDialog ({
   open,
   onClose,
   maxWidth,

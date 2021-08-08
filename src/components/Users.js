@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { userApi as api } from '../api'
-import Header from './Header'
-import List from './List'
-import CustomDialog from './CustomDialog'
+import { Header, List, FormDialog } from './CommonComponents'
 import UserForm from './UserForm'
 
 const columns = [
@@ -24,28 +22,14 @@ const columns = [
   }
 ]
 
-const initDialog = {
-  open: false,
-  user: {},
-  action: 'add'
-}
-
-export default function Users ({ setNotif }) {
+export default function Users ({
+  setNotif,
+  dialog,
+  openAddDialog,
+  openEditDialog,
+  handleClose
+}) {
   const [users, setUsers] = useState([])
-  const [dialog, setDialog] = useState(initDialog)
-
-  async function editUser (user) {
-    const updatedUser = await api.updateUser(user)
-    users[users.findIndex(user => user.id === updatedUser.id)] = user
-    setUsers([...users])
-    return updatedUser
-  }
-
-  async function newUser (user) {
-    const addedUser = await api.addUser(user)
-    setUsers([...users, addedUser])
-    return addedUser
-  }
 
   async function handleDelete (e, user) {
     try {
@@ -56,7 +40,7 @@ export default function Users ({ setNotif }) {
         setUsers([...users.splice(i, 1)])
         setNotif({
           type: 'success',
-          message: deletedUser.type + deletedUser.username + 'Deleted!'
+          message: `${user.type} ${user.username} Deleted!`
         })
       }
     } catch (error) {
@@ -64,33 +48,18 @@ export default function Users ({ setNotif }) {
     }
   }
 
-  async function handleSubmit (e, user) {
-    e.preventDefault()
-    try {
-      const result = user.id ? await editUser(user) : await newUser(user)
-      setNotif({
-        type: 'success',
-        message:
-          result.type + result.username + dialog.action === 'edit'
-            ? 'Updated!'
-            : 'Added!'
-      })
-      handleClose()
-    } catch (error) {
-      setNotif({ error })
-    }
-  }
-
-  function handleClose () {
-    setDialog(initDialog)
-  }
-
-  function onClickEdit (e, user) {
-    setDialog({ open: true, action: 'edit', user })
-  }
-
-  function onClickAdd () {
-    setDialog({ open: true, action: 'add' })
+  function onSuccess (result) {
+    if (dialog.action === 'edit') {
+      users[users.findIndex(user => user.id === result.id)] = result
+      setUsers([...users])
+    } else setUsers([...users, result])
+    setNotif({
+      type: 'success',
+      message:
+        `${result.type} ${result.username} ` +
+        (dialog.action === 'edit' ? 'Updated!' : 'Added!')
+    })
+    handleClose()
   }
 
   useEffect(() => {
@@ -101,18 +70,24 @@ export default function Users ({ setNotif }) {
 
   return (
     <>
-      <Header heading='users' onClick={onClickAdd} />
+      <Header heading='users' onClick={openAddDialog} />
       <List
         rows={users}
         columns={columns}
-        onEdit={onClickEdit}
+        onEdit={openEditDialog}
         onDelete={handleDelete}
       />
-      <CustomDialog
+      <FormDialog
         open={dialog.open}
         onClose={handleClose}
         title={`${dialog.action.toUpperCase()} USER`}
-        form={<UserForm editUser={dialog.user} handleSubmit={handleSubmit} />}
+        form={
+          <UserForm
+            editUser={dialog.object}
+            onSuccess={onSuccess}
+            onFailure={error => setNotif({ error })}
+          />
+        }
         actions={
           dialog.action === 'add' ? (
             <Button

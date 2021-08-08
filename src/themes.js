@@ -43,7 +43,7 @@ const CadetTheme = {
     },
     MuiDivider: {
       root: {
-        margin: '5px auto',
+        marginBottom: 5,
         height: 2
       }
     },

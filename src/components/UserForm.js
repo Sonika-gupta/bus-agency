@@ -1,13 +1,27 @@
 import { useReducer } from 'react'
 import { Grid, MenuItem, TextField } from '@material-ui/core'
 import { initUser, userType } from '../values'
-import { MobileInput } from './ContactInput'
+import { MobileInput } from './CommonComponents/ContactInput'
+import { userApi as api } from '../api'
 
-export default function UserForm ({ editUser, handleSubmit }) {
+export default function UserForm ({ editUser, onSuccess, onFailure }) {
   const [user, setUser] = useReducer(
     (user, newValue) => ({ ...user, ...newValue }),
     Object.assign({}, initUser, editUser)
   )
+
+  async function handleSubmit (e, user) {
+    console.log(user)
+    e.preventDefault()
+    try {
+      const result = user.id
+        ? await api.updateUser(user)
+        : await api.addUser(user)
+      onSuccess(result)
+    } catch (error) {
+      onFailure(error)
+    }
+  }
 
   // console.log('User', user)
   function handleChange (e) {
@@ -52,7 +66,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
             required
             fullWidth
             autoFocus
-            autoComplete='fname'
+            autoComplete='given-name'
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -62,7 +76,7 @@ export default function UserForm ({ editUser, handleSubmit }) {
             label='Last Name'
             required
             fullWidth
-            autoComplete='lname'
+            autoComplete='family-name'
           />
         </Grid>
         <Grid item xs={12} sm={6}>

@@ -11,7 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
-import PriceInput from './PriceInput'
+import { PriceInput } from './CommonComponents'
 import { initBus, busType, busChartType, days, amenities } from '../values'
 
 const useStyles = makeStyles(theme => ({

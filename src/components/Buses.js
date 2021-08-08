@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { busApi as api } from '../api'
-import Header from './Header'
-import List from './List'
-import CustomDialog from './CustomDialog'
+import { Header, List, FormDialog } from './CommonComponents'
 import BusForm from './BusForm'
 
 const columns = [
@@ -42,15 +40,14 @@ const columns = [
   }
 ]
 
-const initDialog = {
-  open: false,
-  bus: {},
-  action: 'add'
-}
-
-export default function Buses ({ setNotif }) {
+export default function Buses ({
+  setNotif,
+  dialog,
+  openAddDialog,
+  openEditDialog,
+  handleClose
+}) {
   const [buses, setBuses] = useState([])
-  const [dialog, setDialog] = useState(initDialog)
 
   async function editBus (bus) {
     const updatedBus = await api.updateBus(bus)
@@ -89,26 +86,13 @@ export default function Buses ({ setNotif }) {
       setNotif({
         type: 'success',
         message:
-          `Bus ${result.busName}` + dialog.action === 'edit'
-            ? 'Updated!'
-            : 'Added!'
+          `Bus ${result.busName} ` +
+          (dialog.action === 'edit' ? 'Updated!' : 'Added!')
       })
       handleClose()
     } catch (error) {
       setNotif({ error })
     }
-  }
-
-  function handleClose () {
-    setDialog(initDialog)
-  }
-
-  function onClickEdit (e, bus) {
-    setDialog({ open: true, action: 'edit', bus })
-  }
-
-  function onClickAdd () {
-    setDialog({ open: true, action: 'add' })
   }
 
   useEffect(() => {
@@ -118,21 +102,22 @@ export default function Buses ({ setNotif }) {
     return () => setBuses([])
   }, [])
 
+  console.log(dialog)
   return (
     <>
-      <Header heading='buses' onClick={onClickAdd} />
+      <Header heading='buses' onClick={openAddDialog} />
       <List
         rows={buses}
         columns={columns}
-        onEdit={onClickEdit}
+        onEdit={openEditDialog}
         onDelete={handleDelete}
       />
-      <CustomDialog
+      <FormDialog
         open={dialog.open}
         onClose={handleClose}
         maxWidth='md'
         title={`${dialog.action} bus`}
-        form={<BusForm editBus={dialog.bus} handleSubmit={handleSubmit} />}
+        form={<BusForm editBus={dialog.object} handleSubmit={handleSubmit} />}
         actions={
           <>
             <Button variant='contained' onClick={handleClose}>

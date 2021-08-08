@@ -6,7 +6,7 @@ import {
   Typography
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import CompanyLogo from './CompanyLogo'
+// import CompanyLogo from '../CompanyLogo'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -34,7 +34,7 @@ export default function TitleBar ({ toggleDrawer }) {
         >
           <MenuIcon />
         </IconButton>
-        <CompanyLogo />
+        {/* <CompanyLogo /> */}
       </Toolbar>
     </AppBar>
   )
