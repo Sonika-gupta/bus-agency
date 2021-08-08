@@ -25,4 +25,19 @@ const user = [
   'is_active'
 ]
 
-module.exports = { bus, user }
+const serviceProvider = [
+  'name',
+  'vat_no',
+  'address_line1',
+  'address_line2',
+  'city',
+  'state',
+  'pincode',
+  'contact',
+  'landline',
+  'fax',
+  'comments',
+  'designation'
+]
+
+module.exports = { bus, user, serviceProvider }

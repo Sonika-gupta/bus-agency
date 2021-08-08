@@ -61,4 +61,28 @@ const initUser = {
 
 const userType = ['admin', 'agent', 'customer']
 
-export { initBus, busType, busChartType, days, amenities, initUser, userType }
+const initServiceProvider = {
+  vatNo: '',
+  name: '',
+  addressLine1: '',
+  addressLine2: '',
+  city: '',
+  state: '',
+  pincode: '',
+  contact: '',
+  landline: '',
+  fax: '',
+  comments: '',
+  designation: ''
+}
+
+export {
+  initBus,
+  busType,
+  busChartType,
+  days,
+  amenities,
+  initUser,
+  userType,
+  initServiceProvider
+}

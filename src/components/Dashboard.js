@@ -5,6 +5,7 @@ import { CssBaseline, Drawer, Container, Grid, Paper } from '@material-ui/core'
 import Menu from './Menu.js'
 import Buses from './Buses'
 import Users from './Users'
+import ServiceProviders from './ServiceProviders.js'
 import CompanyLogo from './CompanyLogo.js'
 
 const drawerWidth = 260
@@ -62,7 +63,9 @@ export default function Dashboard () {
               <Users />
             </Route>
             <Route path='/bookings'></Route>
-            <Route path='/service providers'></Route>
+            <Route path='/service providers'>
+              <ServiceProviders />
+            </Route>
             <Route path='/settings'></Route>
             <Route path='/'>
               <Container className={classes.container}>

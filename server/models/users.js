@@ -11,15 +11,6 @@ async function getAllUsers () {
   return [err, res]
 }
 
-async function searchUsers (filters) {
-  const query = `SELECT ${properties.join(',')} FROM users WHERE source = $1`
-  /* Object.entries(filters).forEach(([key, value]) => {
-    query += `${key} = ${value}`
-  }) */
-  const [err, res] = await poolQuery(query, [filters.source])
-  return [err, res]
-}
-
 async function createUser (user) {
   const props = properties.join(',')
   const paramString = Array.from(
@@ -52,7 +43,6 @@ async function updateUser (user) {
 
 module.exports = {
   getAllUsers,
-  searchUsers,
   createUser,
   deleteUser,
   updateUser
